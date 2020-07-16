@@ -40,6 +40,7 @@ ResultType r2{1,32,496,4960,35960,201376,906192,3365856,10518300,28048800,
 
 auto values = ::testing::Values(
   ParamType(3, r1),
+  ParamType(2, {1,2,1}),
   ParamType(32, r2)
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器

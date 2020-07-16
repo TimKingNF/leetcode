@@ -53,7 +53,7 @@ struct TreeNode {
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
-      return solution1(root);
+      return solution2(root);
     }
 
     bool solution1(TreeNode* root) {
@@ -65,6 +65,32 @@ public:
       if (!first || !second) return false;
       if (first->val != second->val) return false;
       return solution1(first->left, second->right) && solution1(first->right, second->left);
+    }
+
+    bool solution2(TreeNode* root) {
+      if (!root) return true;
+      deque<TreeNode*> q;
+      q.push_back(root->left);
+      q.push_back(root->right);
+
+      TreeNode *node1, *node2;
+      while (!q.empty()) {
+        node1 = q.back();
+        q.pop_back();
+        node2 = q.back();
+        q.pop_back();
+
+        if (!node1 && !node2) continue;
+        if (!node1 || !node2) return false;
+        if (node1->val != node2->val) return false;
+        // 下两个比较的节点, 为 node1的左节点 和 node2 的右节点
+        q.push_back(node1->left);
+        q.push_back(node2->right);
+        // 下两个比较的节点, 为 node1的右节点 和 node2 的左节点
+        q.push_back(node1->right);
+        q.push_back(node2->left);
+      }
+      return true;
     }
   };
 //leetcode submit region end(Prohibit modification and deletion)

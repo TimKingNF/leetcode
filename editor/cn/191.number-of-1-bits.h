@@ -58,6 +58,15 @@ public:
       return res;
     }
 
+    int solution2(uint32_t n) {
+      int ans = 0;
+      while (n != 0) {
+        n = n & (n-1);  // 消去最低位的1
+        ++ans;
+      }
+      return ans;
+    }
+
     // TODO: 进阶方式: 使用字典存储结果?
 };
 //leetcode submit region end(Prohibit modification and deletion)

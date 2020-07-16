@@ -31,7 +31,6 @@ public:
       int res = nums[0];
 
       int x, y;  // x: n, y: n-1
-      vector<int> arr;
       for (int i = 1; i < nums.size(); ++i) {
         x = i % 2;
         y = (i-1) % 2;

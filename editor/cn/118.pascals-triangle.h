@@ -25,6 +25,11 @@ namespace LeetCode118 {
 class Solution {
 public:
     vector<vector<int>> generate(int numRows) {
+      return solution2(numRows);
+    }
+
+    // O(n^2)
+    vector<vector<int>> solution1(int numRows) {
       vector<vector<int>> res;
       vector<int> tmp(numRows, 1);
       int n = 1;
@@ -36,6 +41,23 @@ public:
         ++n;
       }
       return res;
+    }
+
+    vector<vector<int>> solution2(int numRows) {
+      vector<vector<int>> ans;
+      vector<int> line;
+      long x;
+      for (int n = 0; n < numRows; ++n) {
+        x = 1;
+        line.push_back(x);
+        for (int i = 1; i <= n; ++i) {  // 一共有n+1个元素, 所以是 i <= n
+          x = x * (n - i + 1) / i;   // 由杨辉三角的同项公式得 每一项是前一项的 (n-i)/(i+1) 倍 (这里的i是前一项)
+          line.push_back(x);
+        }
+        ans.push_back(line);
+        line.clear();
+      }
+      return ans;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

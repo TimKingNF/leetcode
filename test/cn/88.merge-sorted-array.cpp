@@ -30,6 +30,7 @@ TEST_P(LeetCode88Test, main) {
   vector<int> nums1, nums2;
   int m, n;
   tie(nums1, m, nums2, n) = arguments;
+  nums1.resize(m + n);
 
   solution->merge(nums1, m, nums2, n);
   ASSERT_EQ(nums1, ret);  // 断言结果
@@ -42,7 +43,8 @@ ArgumentType p1(p1_0, 3, p1_2, 3);
 ResultType r1{1,2,2,3,5,6};
 
 auto values = ::testing::Values(
-  ParamType(p1, r1)
+  ParamType(p1, r1),
+  ParamType(ArgumentType({}, 0, {1}, 1), {1})
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode88ParamTest, LeetCode88Test, values);

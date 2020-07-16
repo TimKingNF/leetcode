@@ -40,8 +40,10 @@ public:
         else
           nums1[k--] = nums2[j--];
       }
-      while ( j >= 0 )
-        nums1[k--] = nums2[j--];
+      // 如果 i < 0，则无需拷贝; j >= 0，则需要将剩余的 0-j的元素复制到 nums1 中
+      if (j >= 0) copy(nums2.begin(), nums2.begin()+j+1, nums1.begin());
+      // while ( j >= 0 )
+      //   nums1[k--] = nums2[j--];
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

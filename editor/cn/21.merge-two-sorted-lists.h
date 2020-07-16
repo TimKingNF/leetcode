@@ -29,6 +29,11 @@ struct ListNode {
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+      return solution1(l1, l2);
+    }
+
+    // 递归
+    ListNode* solution1(ListNode* l1, ListNode* l2) {
       if (l1 == nullptr) return l2;
       if (l2 == nullptr) return l1;
 
@@ -40,6 +45,35 @@ public:
         ans = l2;
         ans->next = mergeTwoLists(l1, l2->next);
       }
+      return ans;
+    }
+
+    // 不使用递归
+    ListNode* solution2(ListNode* l1, ListNode* l2) {
+      if (!l1) return l2;
+      if (!l2) return l1;
+
+      ListNode *ans, *node;
+      if (l1->val < l2->val) {
+        ans = l1;
+        l1 = l1->next;
+      } else {
+        ans = l2;
+        l2 = l2->next;
+      }
+      node = ans;
+      while (l1 && l2) {
+        if (l1->val < l2->val) {
+          node->next = l1;
+          l1 = l1->next;
+        } else {
+          node->next = l2;
+          l2 = l2->next;
+        }
+        node = node->next;
+      }
+      if (l1) node->next = l1;
+      if (l2) node->next = l2;
       return ans;
     }
 };

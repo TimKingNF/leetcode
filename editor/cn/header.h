@@ -91,6 +91,15 @@ bool link_list_cmp(T* first, T* second) {
   return first == nullptr && second == nullptr;  // 两个都为空指针时，说明比较完毕，两个链表值相同
 }
 
+template<typename T>
+void link_list_print(T* root) {
+  while (root) {
+    cout << root->val << "->";
+    root = root->next;
+  }
+  cout << endl;
+}
+
 /**
 * 前序遍历一个二叉树, 不使用递归
 * @tparam T
@@ -216,6 +225,7 @@ T* build_tree(vector<value_type>& preorder, vector<value_type>& inorder) {
 
 template<typename T, typename convert>
 T* buildTreeBySerialize(string data) {
+  if (data.empty()) return nullptr;
   istringstream input(data);  // 没有 []
   string val;
   vector<T*> vec;
@@ -234,6 +244,29 @@ T* buildTreeBySerialize(string data) {
     if (j < vec.size()) vec[i]->right = vec[j++];
   }
   return vec[0];
+}
+
+template<typename T>
+string treeSerialize(T* root) {
+  ostringstream out;  // 使用 ostream 代替 string
+  deque<T*> q;
+  q.push_back(root);
+  T* tmp;
+  int curNum = 1;  // 用该变量记录实际的元素
+  while (!q.empty()) {
+    tmp = q.front();
+    q.pop_front();
+    if (tmp) {
+      out << tmp->val << ',';
+      --curNum;
+      q.push_back(tmp->left);
+      if (tmp->left) ++curNum;
+      q.push_back(tmp->right);
+      if (tmp->right) ++curNum;
+    } else if (curNum) out << "null,";
+  }
+  string ans = out.str();
+  return ans.substr(0, ans.size()-1);
 }
 
 #endif  // EDITORCN_HEAD_H

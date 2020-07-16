@@ -82,6 +82,29 @@ public:
       }
       return ans;
     }
+
+    // 更易理解一点
+    vector<vector<int>> solution2(TreeNode* root) {
+      if (!root) return {};
+      deque<TreeNode*> p, q;
+      p.push_back(root);
+      vector<vector<int>> ans;
+      vector<int> line;
+      TreeNode* cur;
+      while (!p.empty()) {
+        cur = p.front();
+        p.pop_front();
+        line.push_back(cur->val);
+        if (cur->left) q.push_back(cur->left);
+        if (cur->right) q.push_back(cur->right);
+        if (p.empty()) {
+          swap(p, q);
+          ans.push_back(line);
+          line.clear();
+        }
+      }
+      return ans;
+    }
   };
 //leetcode submit region end(Prohibit modification and deletion)
 

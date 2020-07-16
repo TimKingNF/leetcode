@@ -43,7 +43,7 @@ public:
       int v = 0;
       for (auto num : nums)
         v ^= num;
-      // 求得首个为1的位置
+      // 求得最低位为1的位置
       int x = v & -v;
       vector<int> ans(2, 0);
       for (auto num: nums) {

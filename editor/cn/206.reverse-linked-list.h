@@ -38,7 +38,7 @@ public:
         pre = node;
         node = reversedHead;
       }
-      return pre;
+      return pre;  // 直到 reversedHead 为 nullptr 的时候, 说明pre是首节点
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

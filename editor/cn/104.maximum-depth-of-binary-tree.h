@@ -39,8 +39,12 @@ struct TreeNode {
  */
 class Solution {
 public:
-    // BFS
     int maxDepth(TreeNode* root) {
+      return solution2(root);
+    }
+
+    // BFS
+    int solution1(TreeNode* root) {
       if (!root) return 0;
       deque<TreeNode*> q;
       q.push_back(root);
@@ -59,7 +63,17 @@ public:
       }
       return ans;
     }
-};
+
+    int solution2(TreeNode* root) {
+      if (!root) return 0;
+      return max(solution2core(root->left, 1), solution2core(root->right, 1));
+    }
+
+    int solution2core(TreeNode* root, int depth) {
+      if (!root) return depth;
+      return max(solution2core(root->left, depth+1), solution2core(root->right, depth+1));
+    }
+  };
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

@@ -63,8 +63,7 @@ public:
           if (tmp->left) ++curNum;
           q.push_back(tmp->right);
           if (tmp->right) ++curNum;
-        } else
-          if (curNum) out << "null,";
+        } else if (curNum) out << "null,";
       }
       string ans = out.str();
       ans = ans.substr(0, ans.size()-1);
