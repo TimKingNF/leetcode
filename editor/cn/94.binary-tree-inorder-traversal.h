@@ -18,6 +18,13 @@
 
 namespace LeetCode94 {
 
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
 //leetcode submit region begin(Prohibit modification and deletion)
 /**
  * Definition for a binary tree node.
@@ -31,9 +38,43 @@ namespace LeetCode94 {
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        
+      return solution2(root);
     }
-};
+
+    // 递归
+    vector<int> solution1(TreeNode* root) {
+      if (!root) return {};
+      vector<int> ans;
+      inorder(root, &ans);
+      return ans;
+    }
+
+    void inorder(TreeNode* root, vector<int>* ans) {
+      if (!root) return;
+      inorder(root->left, ans);
+      (*ans).push_back(root->val);
+      inorder(root->right, ans);
+    }
+
+    // 循环
+    vector<int> solution2(TreeNode* root) {
+      if (!root) return {};
+      stack<TreeNode*> stk;
+      vector<int> ans;
+      TreeNode* cur;
+      while (!stk.empty() || root) {
+        while (root) {
+          stk.push(root);
+          root = root->left;
+        }
+        cur = stk.top();
+        stk.pop();
+        ans.push_back(cur->val);
+        root = cur->right;
+      }
+      return ans;
+    }
+  };
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

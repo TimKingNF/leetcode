@@ -42,7 +42,7 @@ public:
     // O(n) 利用有序的特性
     vector<int> solution2(vector<int>& numbers, int target) {
       int left = 0, right = numbers.size() - 1;
-      int sum = 0;
+      int sum;
       while (left < right) {
         sum = numbers[left] + numbers[right];
         if (sum == target) return {left+1, right+1};

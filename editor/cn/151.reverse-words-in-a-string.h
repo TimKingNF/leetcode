@@ -47,7 +47,7 @@ namespace LeetCode151 {
 class Solution {
 public:
     string reverseWords(string s) {
-      return solution1(s);
+      return solution2(s);
     }
 
     // 从后往前遍历
@@ -67,6 +67,28 @@ public:
       else if (ans.size() > 0)  // 不满足 next != -1 且最后也没有结果
         ans.erase(ans.end()-1, ans.end());  // 如果没有拼接，则需要去掉最后的空格
       return ans;
+    }
+
+    // 两次翻转, 先翻转整个字符串, 再翻转每个单词
+    string solution2(string s) {
+      reverse(s.begin(), s.end());
+      int n = s.size();
+      int idx = 0, end;
+      for (int start = 0; start < n; ++start) {
+        if (s[start] != ' ') {
+          // 填写一个空白字符
+          if (idx != 0) s[idx++] = ' ';
+          // 遍历到单词的末尾
+          end = start;
+          while (end < n && s[end] != ' ') s[idx++] = s[end++];
+          // 翻转单词
+          reverse(s.begin() + idx - (end - start), s.begin() + idx);
+          // 更新start, 寻找下一个单词
+          start = end;
+        }
+      }
+      s.erase(s.begin() + idx, s.end());  // 移除 idx 以后的字符串
+      return s;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

@@ -42,29 +42,19 @@ public:
     }
 
     int solution2(vector<int>& nums) {
-      int size = nums.size();
-      int sum = 0, tsize=size/2;
       int hash[20001] = { 0 };
       for (int num : nums)
         hash[num + 10000] += 1;
-      int i = 0;  // 不排除 nums 内还有负值的存在
-      while (tsize > 0) {
-        int tag = 2;
-        while (tag>0) {
-          if (hash[i]>0&&tag==2) {
-            sum += i-10000;
-            hash[i]--;
-            tag--;
-          }
-          else if (hash[i] > 0 && tag == 1) {
-            hash[i]--;
-            tag--;
-          }
-          else i++;
+      int ans = 0;
+      bool flag = true;
+      for (int i = 0; i <= 20000; ++i) {  // 由小到大开始
+        while (hash[i] > 0) {
+          if (flag) ans += i - 10000;  // 算上第1，3，5...个数，如果有
+          flag = !flag;  // 跳过下一个数
+          --hash[i];
         }
-        tsize--;
       }
-      return sum;
+      return ans;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
