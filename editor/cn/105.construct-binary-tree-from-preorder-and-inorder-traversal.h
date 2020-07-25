@@ -46,6 +46,7 @@ public:
       return solution1(preorder, inorder);
     }
 
+    // 递归解法
     TreeNode* __buildTree(vector<int>::iterator pre_begin,
                           vector<int>::iterator pre_end,
                           vector<int>::iterator in_begin,

@@ -45,6 +45,7 @@ struct TreeNode {
  */
 class Codec {
 public:
+    // TODO
 
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
@@ -72,7 +73,7 @@ public:
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-      istringstream input(data.substr(1, data.size()-2));
+      istringstream input(data.substr(1, data.size()-2));  // 去掉 []
       string val;
       vector<TreeNode*> vec;
       while (getline(input, val, ',')) {

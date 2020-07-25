@@ -94,6 +94,7 @@ class Solution {
   }
 
   // TODO
+  // 自下而上
   TreeNode* solution2(TreeNode* root, TreeNode* p, TreeNode* q) {
     if (!root || root == p || root == q) return root;
     TreeNode* left = solution2(root->left, p, q);

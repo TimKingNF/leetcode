@@ -40,7 +40,7 @@ struct TreeNode {
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
-      return solution2(root);
+      return solution3(root);
     }
 
     // BFS
@@ -64,6 +64,7 @@ public:
       return ans;
     }
 
+    // 自上而下的递归
     int solution2(TreeNode* root) {
       if (!root) return 0;
       return max(solution2core(root->left, 1), solution2core(root->right, 1));
@@ -72,6 +73,12 @@ public:
     int solution2core(TreeNode* root, int depth) {
       if (!root) return depth;
       return max(solution2core(root->left, depth+1), solution2core(root->right, depth+1));
+    }
+
+    // 自下而上的递归
+    int solution3(TreeNode* root) {
+      if (!root) return 0;
+      return max(solution3(root->left), solution3(root->right)) + 1;
     }
   };
 //leetcode submit region end(Prohibit modification and deletion)
