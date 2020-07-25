@@ -34,10 +34,13 @@ namespace LeetCode50 {
 class Solution {
 public:
     double myPow(double x, int n) {
+      return solution1(x, n);
+    }
+
+    double solution1(double x, int n) {
       double ans = 1;
-      for (int i = n; i; i /= 2) {
-        if (i & 1)
-          ans *= x;
+      for (int i = n; i != 0; i /= 2) {
+        if (i & 1) ans *= x;  // 如果i为奇数，则需要补乘一个x
         x *= x;
       }
       return n < 0 ? 1 / ans : ans;
