@@ -93,6 +93,7 @@ public:
       return solution1(head);
     }
 
+    // 核心的思路就是要节约定位每个新clone节点的位置，这里利用了原有节点
     Node* solution1(Node* head) {
       if (!head) return nullptr;
       // 将每一个clone出来的节点挂载到原有节点的后方
@@ -105,14 +106,14 @@ public:
     }
 
     void cloneNodes(Node* head) {
-                                  Node *copyNode;
-                                  while (head) {
-                                  copyNode = new Node(head->val);
-                                  copyNode->next = head->next;
-                                  head->next = copyNode;
-                                  head = copyNode->next;
-                                  }
-                                  }
+      Node *copyNode;
+      while (head) {
+        copyNode = new Node(head->val);
+        copyNode->next = head->next;
+        head->next = copyNode;
+        head = copyNode->next;
+      }
+    }
 
     void connectRandomNodes(Node* head) {
       while (head && head->next) {

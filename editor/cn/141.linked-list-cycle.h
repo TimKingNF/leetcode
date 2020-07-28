@@ -66,8 +66,10 @@ public:
     bool solution1(ListNode *head) {
       ListNode *slow, *fast;
       slow = fast = head;
+      // int count = 0;
       // slow 一次走1步， fast 一次走2步，如果最终能相遇说明存在环
       while (fast && fast->next) {
+        // ++count;  // 最后count 即环的大小
         slow = slow->next;
         fast = fast->next->next;
         if (slow == fast) return true;

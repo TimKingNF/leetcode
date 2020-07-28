@@ -31,6 +31,10 @@ struct ListNode {
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
+      return solution2(head);
+    }
+
+    ListNode* solution1(ListNode* head) {
       ListNode *reversedHead, *pre = nullptr, *node=head;
       while (node) {
         reversedHead = node->next;
@@ -39,6 +43,18 @@ public:
         node = reversedHead;
       }
       return pre;  // 直到 reversedHead 为 nullptr 的时候, 说明pre是首节点
+    }
+
+    ListNode* solution2(ListNode* head) {
+      if (!head) return nullptr;
+      ListNode* origHead = head, *node;
+      while (origHead && origHead->next) {
+        node = origHead->next;
+        origHead->next = node->next;
+        node->next = head;
+        head = node;
+      }
+      return head;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
