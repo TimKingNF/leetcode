@@ -53,6 +53,32 @@ bool vector_unordered_cmp(vector<T>& first, vector<T>& second) {
 }
 
 /**
+* 无序比较二维数组
+* @param first
+* @param second
+* @return
+*/
+template <typename value>
+bool double_vector_cmp(vector<vector<value>>& first,
+                       vector<vector<value>>& second) {
+  if (first.size() != second.size()) return false;
+  vector<value> cur;
+  for (int i = 0; i < first.size(); ++i) {
+    cur = first[i];
+    bool flag = false;
+    for (int j = 0; j < second.size(); ++j) {
+      if (cur.size() != second[j].size()) flag = false;
+      else if (vector_unordered_cmp(cur, second[j])) {
+        flag = true;
+        break;
+      }
+    }
+    if (!flag) return false;
+  }
+  return true;
+}
+
+/**
 * 构造一个链表
 * @tparam T
 * @tparam value

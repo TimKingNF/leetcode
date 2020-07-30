@@ -66,15 +66,24 @@ public:
     bool solution1(ListNode *head) {
       ListNode *slow, *fast;
       slow = fast = head;
-      // int count = 0;
       // slow 一次走1步， fast 一次走2步，如果最终能相遇说明存在环
       while (fast && fast->next) {
-        // ++count;  // 最后count 即环的大小
         slow = slow->next;
         fast = fast->next->next;
         if (slow == fast) return true;
       }
       return false;
+      if (!fast || fast->next) return 0;  // 说明不存在环
+      // 在第一次相遇之后继续往下在，到在此相遇，fast会比slow多走 R 步，即环的大小
+      // int size = 1;
+      // fast = fast->next->next;
+      // slow = slow->next;
+      // while (fast != slow) {
+      //   ++size;
+      //   fast = fast->next->next;
+      //   slow = slow->next;
+      // }
+      // size即为环的大小
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

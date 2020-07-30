@@ -29,9 +29,7 @@ public:
     bool containsNearbyDuplicate(vector<int>& nums, int k) {
       unordered_map<int, int> v;
       for (int i = 0 ; i < nums.size(); ++i) {
-        if ( (v.find(nums[i]) != v.end()) && (abs(i - v[nums[i]]) <= k) ) {
-          return true;
-        }
+        if (v.count(nums[i]) && i - v[nums[i]] <= k) return true;
         v[nums[i]] = i; // 记录最新的下标
       }
       return false;

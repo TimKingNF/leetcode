@@ -36,7 +36,7 @@ public:
       return nums.size() > unordered_set<int>(nums.begin(), nums.end()).size();
     }
 
-    // O(log2 N)
+    // O(N * logN)
     bool solution2(vector<int>& nums) {
       if (nums.empty()) return false;
       quick_sort(nums, 0, nums.size() - 1);  // 先排序
