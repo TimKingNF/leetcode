@@ -33,23 +33,12 @@ TEST_P(LeetCode34Test, main) {
   ASSERT_EQ(solution->searchRange(nums, target), ret);  // 断言结果
 }
 
-vector<int> p1_0{5,7,7,8,8,10};
-vector<int> p3_0{2,2};
-vector<int> p4_0{1,1,2};
-ArgumentType p1(p1_0, 8);
-ArgumentType p2(p1_0, 6);
-ArgumentType p3(p3_0, 3);
-ArgumentType p4(p4_0, 1);
-
-ResultType r1{3, 4};
-ResultType r2{-1, -1};
-ResultType r4{0, 1};
-
 auto values = ::testing::Values(
-  ParamType(p1, r1),
-  ParamType(p2, r2),
-  ParamType(p3, r2),
-  ParamType(p4, r4)
+  ParamType(ArgumentType({5,7,7,8,8,10}, 8), {3,4}),
+  ParamType(ArgumentType({5,7,7,8,8,10}, 6), {-1,-1}),
+  ParamType(ArgumentType({2,2}, 3), {-1,-1}),
+  ParamType(ArgumentType({1,1,2}, 1), {0,1}),
+  ParamType(ArgumentType({1}, 1), {0,0})
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode34ParamTest, LeetCode34Test, values);

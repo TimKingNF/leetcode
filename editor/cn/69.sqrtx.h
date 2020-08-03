@@ -46,11 +46,41 @@ public:
       return ans;
     }
 
-    // 数学
+    // 比起 solution1 会更好理解一点
     int solution2(int x) {
+      if (x < 2) return x;
+      int left = 0, right = x;
+      int middle, div;
+      while (left < right) {
+        if (right - left == 1) return left;  // 最后肯定会夹逼到差值为1，取下界即可
+        middle = left + (right - left) / 2;
+        div = x / middle;
+        if (div == middle) return middle;
+        else if (div < middle) right = middle;
+        else left = middle;
+      }
+      return left;
+    }
+
+    // 数学
+    int solution3(int x) {
       if (x == 0) return x;
       int ans = exp(0.5 * log(x));  // 这里可能有两个解 n + 1, n
       return x / (ans+1) >= (ans+1) ? ans + 1 : ans;
+    }
+
+    // 牛顿迭代法
+    int solution4(int x) {
+      if (x == 0) return x;
+      double C = x, x0 = x;
+      while (true) {
+        double xi = 0.5 * (x0 + C / x0);
+        if (fabs(x0 - xi) < 1e-7) {
+          break;
+        }
+        x0 = xi;
+      }
+      return int(x0);
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

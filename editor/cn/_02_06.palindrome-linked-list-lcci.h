@@ -82,6 +82,11 @@ public:
       }
       return ans;
     }
+
+    // solution2:
+    // 使用快慢两个指针找到链表中点，慢指针每次前进一步，快指针每次前进两步。
+    // 在慢指针前进的过程中，同时修改其 next 指针，使得链表前半部分反序。
+    // 最后比较中点两侧的链表是否相等。
   };
 //leetcode submit region end(Prohibit modification and deletion)
 
