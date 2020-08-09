@@ -60,7 +60,7 @@ struct TreeNode {
 class Solution {
 public:
     bool isBalanced(TreeNode* root) {
-      return solution1(root);
+      return solution2(root);
     }
 
     bool solution1(TreeNode* root) {
@@ -78,6 +78,31 @@ public:
 
       if (abs(leftDepth - rightDepth) > 1) return -1;  // 不平衡
       return max(leftDepth, rightDepth) + 1;
+    }
+
+    bool solution2(TreeNode* root) {
+      if (!root) return true;
+      int leftHight;
+      int rightHight;
+      return solution2core(root->left, &leftHight) &&
+             solution2core(root->right, &rightHight) &&
+             abs(leftHight - rightHight) <= 1;
+    }
+
+    bool solution2core(TreeNode* node, int* hight) {
+      if (!node) {
+        *hight = 0;
+        return true;
+      }
+      int leftHight;
+      int rightHight;
+      if (solution2core(node->left, &leftHight) &&
+          solution2core(node->right, &rightHight) &&
+          abs(leftHight - rightHight) <= 1) {
+        *hight = max(leftHight, rightHight) + 1;
+        return true;
+      }
+      return false;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

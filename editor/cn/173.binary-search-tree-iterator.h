@@ -33,6 +33,13 @@
 
 namespace LeetCode173 {
 
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
 //leetcode submit region begin(Prohibit modification and deletion)
 /**
  * Definition for a binary tree node.
@@ -44,19 +51,35 @@ namespace LeetCode173 {
  * };
  */
 class BSTIterator {
+ private:
+  stack<TreeNode*> stk;  // 最大大小为树的高度
 public:
     BSTIterator(TreeNode* root) {
-
+      // 先遍历到最左节点
+      while (root) {
+        stk.push(root);
+        root = root->left;
+      }
     }
     
     /** @return the next smallest number */
     int next() {
-
+      // if (stk.empty()) return -1;  // hasNext 为 false
+      TreeNode *cur = stk.top();
+      stk.pop();
+      int ans = cur->val;
+      // 继续处理，遍历到右子树的最左节点
+      cur = cur->right;
+      while (cur) {
+        stk.push(cur);
+        cur = cur->left;
+      }
+      return ans;
     }
     
     /** @return whether we have a next smallest number */
     bool hasNext() {
-
+      return !stk.empty();
     }
 };
 

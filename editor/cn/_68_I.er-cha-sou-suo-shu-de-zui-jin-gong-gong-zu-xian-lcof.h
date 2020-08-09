@@ -64,13 +64,8 @@ public:
 
     TreeNode* solution1(TreeNode* root, TreeNode* p, TreeNode* q) {
       if (!root || !p || !q) return nullptr;
-      TreeNode* tmp;
       // p q 交换大小
-      if (p->val > q->val) {
-        tmp = p;
-        p = q;
-        q = tmp;
-      }
+      if (p->val > q->val) swap(p, q);
 
       while (root) {
         if (p->val <= root->val && q->val >= root->val)
