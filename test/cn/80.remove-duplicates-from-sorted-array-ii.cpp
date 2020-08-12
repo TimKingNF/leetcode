@@ -1,28 +1,28 @@
 //
-// Created by timking.nf@foxmail.com on 2020/5/11.
+// Created by timking.nf@foxmail.com on 2020/8/10.
 //
 
 #include "gtest/gtest.h"
 #include "header.h"
-#include "26.remove-duplicates-from-sorted-array.h"
+#include "80.remove-duplicates-from-sorted-array-ii.h"
 
-namespace LeetCode26 {
+namespace LeetCode80 {
 
 typedef vector<int> ArgumentType;
 typedef tuple<int, vector<int>> ResultType;
 typedef tuple<ArgumentType, ResultType> ParamType;
 
-class LeetCode26Test : public ::testing::TestWithParam<ParamType> {
+class LeetCode80Test : public ::testing::TestWithParam<ParamType> {
   // You can implement all the usual fixture class members here.
   // To access the test parameter, call GetParam() from class
   // TestWithParam<T>.
 };
 
-TEST_P(LeetCode26Test, main) {
+TEST_P(LeetCode80Test, main) {
   // Inside a test, access the test parameter with the GetParam() method
   // of the TestWithParam<T> class:
 
-  auto solution = new LeetCode26::Solution();
+  auto solution = new LeetCode80::Solution();
   ArgumentType argument;
   ResultType ret;
   tie(argument, ret) = GetParam();
@@ -38,12 +38,14 @@ TEST_P(LeetCode26Test, main) {
 }
 
 auto values = ::testing::Values(
-  ParamType({1, 1, 2}, ResultType(2, {1,2})),
-  ParamType({0, 0, 1, 1, 1, 2, 2, 3, 3, 4}, ResultType(5, {0,1,2,3,4})),
+  ParamType({1,1,1,2,2,3}, ResultType(5, {1,1,2,2,3})),
+  ParamType({0, 0, 1, 1, 1, 1, 2, 3, 3}, ResultType(7, {0,0,1,1,2,3,3})),
   ParamType({}, ResultType(0, {})),
-  ParamType({1}, ResultType{1, {1}})
+  ParamType({1}, ResultType{1, {1}}),
+  ParamType({0,1,2,2,2,3,4,5,5,6}, ResultType(9, {0,1,2,2,3,4,5,5,6})),
+  ParamType({1,1,1,1,2,2,3}, ResultType(5, {1,1,2,2,3}))
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
-INSTANTIATE_TEST_SUITE_P(LeetCode26ParamTest, LeetCode26Test, values);
+INSTANTIATE_TEST_SUITE_P(LeetCode80ParamTest, LeetCode80Test, values);
 
 }

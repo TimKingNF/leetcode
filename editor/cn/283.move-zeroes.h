@@ -21,11 +21,31 @@ namespace LeetCode283 {
 class Solution {
  public:
   void moveZeroes(vector<int>& nums) {
-    for (int lastNonZeroFoundAt = 0, cur = 0; cur < nums.size(); ++cur) {
-      if (nums[cur] != 0) {
-        swap(nums[lastNonZeroFoundAt++], nums[cur]);
-      }
+    return moveZeroesToRight(nums);
+  }
+
+  void moveZeroesToRight(vector<int>& nums) {
+    // for (int lastNonZeroFoundAt = 0, cur = 0; cur < nums.size(); ++cur) {
+    //   if (nums[cur] != 0) swap(nums[lastNonZeroFoundAt++], nums[cur]);
+    // }
+    int n = nums.size(), i = -1, j = 0;
+    while (j < n) {
+      if (nums[j] != 0) nums[++i] = nums[j];
+      ++j;
     }
+    for (int k = i+1; k < n; ++k) nums[k] = 0;
+  }
+
+  // 变种题，将 0 移动到前面
+  void moveZeroesToLeft(vector<int>& nums) {
+    for (int lastZeroFoundAt = 0, cur = 0; cur < nums.size(); ++cur) {
+      if (nums[cur] == 0) swap(nums[lastZeroFoundAt++], nums[cur]);
+    }
+  }
+
+  // 变种题，将 0 分别移动到左右, 同时并保证顺序
+  void moveZeroesToLeftRight(vector<int>& nums) {
+    return;
   }
 };
 //leetcode submit region end(Prohibit modification and deletion)

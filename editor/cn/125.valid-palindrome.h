@@ -23,7 +23,7 @@ namespace LeetCode125 {
 class Solution {
 public:
     bool isPalindrome(string s) {
-      return solution2(s);
+      return solution3(s);
     }
 
     // 双指针，遇到非字母数字跳过
@@ -60,6 +60,23 @@ public:
       int left = 0, right = oss.size() - 1;
       while (left <= right) {
         if (oss[left++] != oss[right--]) return false;
+      }
+      return true;
+    }
+
+    // 方法一 更简洁的写法
+    bool solution3(string s) {
+      int l = 0, r = s.size() - 1;
+      while (l <= r) {
+        if (!isalnum(s[l])) {
+          ++l;
+          continue;
+        }
+        if (!isalnum(s[r])) {
+          --r;
+          continue;
+        }
+        if (tolower(s[l++]) != tolower(s[r--])) return false;
       }
       return true;
     }
