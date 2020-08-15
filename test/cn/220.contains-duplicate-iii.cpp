@@ -38,7 +38,8 @@ auto values = ::testing::Values(
   ParamType(ArgumentType({1,0,1,1}, 1, 2), true),
   ParamType(ArgumentType({1,5,9,1,5,9}, 2, 3), false),
   ParamType(ArgumentType({10, 15, 18, 24}, 3, 3), true),
-  ParamType(ArgumentType({-1, 2147483647}, 1, 2147483647), false)
+  ParamType(ArgumentType({-1, 2147483647}, 1, 2147483647), false),
+  ParamType(ArgumentType({2,1}, 1, 1), true)
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode220ParamTest, LeetCode220Test, values);

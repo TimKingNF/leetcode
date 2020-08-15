@@ -26,9 +26,10 @@ namespace LeetCode49 {
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-      return solution1(strs);
+      return solution2(strs);
     }
 
+    // 这里的key 不排序，按计数也是可以的
     vector<vector<string>> solution1(vector<string>& strs) {
       unordered_map<string, vector<string>> dict;
       unordered_map<string, vector<string>>::iterator find;
@@ -44,6 +45,25 @@ public:
       vector<vector<string>> ans;
       ans.reserve(dict.size());
       for (auto& i : dict) ans.push_back(i.second);
+      return ans;
+    }
+
+    // 利用下标，这样代码更加简洁
+    vector<vector<string>> solution2(vector<string>& strs) {
+      vector<vector<string>> ans;
+      unordered_map<string, int> dict;  // int 记录 ans 的下标
+      string key;
+      int idx = 0;
+      for (const string& v : strs) {
+        key = v;
+        sort(key.begin(), key.end());
+        if (dict.count(key)) {
+          ans[dict[key]].push_back(v);
+        } else {
+          ans.push_back({v});
+          dict[key] = idx++;
+        }
+      }
       return ans;
     }
 };

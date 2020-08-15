@@ -35,22 +35,14 @@ public:
     }
 
     // 哈希表 O(nm), O(n+m)
-    // 优化一下不使用 set 去重
     vector<int> solution1(vector<int>& nums1, vector<int>& nums2) {
-      if (nums1.empty() || nums2.empty()) return {};
-      if (nums1.size() < nums2.size()) swap(nums1, nums2);
-      unordered_map<int, int> dict;
-      for (int v : nums2)  // 使用较短的数组构建字典，节约内存
-        dict.insert({v, 1});
+      if (nums1.size() > nums2.size()) swap(nums1, nums2);
+      unordered_set<int> dict(nums1.begin(), nums1.end());
       vector<int> ans;
-      unordered_map<int, int>::iterator find;
-      for (int v : nums1) {
-        find = dict.find(v);
-        if (find != dict.end()) {
-          if (find->second == 1) {
-            ans.push_back(find->first);
-            find->second = 2;
-          }
+      for (int n : nums2) {
+        if (dict.count(n)) {
+          ans.push_back(n);
+          dict.erase(n);
         }
       }
       return ans;

@@ -31,10 +31,11 @@ namespace LeetCode454 {
 class Solution {
 public:
     int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
-      return solution1(A, B, C, D);
+      return solution2(A, B, C, D);
     }
 
     // O(N^2)
+    // 由于只需要记录数量，所以简写一下，可以修改 unordered_map 的 value type 为 int
     int solution1(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
       unordered_map<int, vector<pair<int, int>>> dict;  // key 是 AB之和，pair 分别为 AB的下标
       int len = A.size();
@@ -42,8 +43,10 @@ public:
       for (int i = 0; i < len; ++i) {
         for (int j = 0; j < len; ++j) {
           int sum = A[i] + B[j];
-          if (dict.count(sum)) dict[sum].push_back({i, j});
-          else dict[sum] = vector<pair<int, int>>{{i,j}};
+          if (dict.count(sum))
+            dict[sum].push_back({i, j});
+          else
+            dict[sum] = vector<pair<int, int>>{{i, j}};
         }
       }
       for (int i = 0; i < len; ++i) {
@@ -52,6 +55,24 @@ public:
           if (dict.count(target)) {
             ans += dict[target].size();
           }
+        }
+      }
+      return ans;
+    }
+
+    int solution2(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
+      unordered_map<int, int> dict;
+      int len = A.size();
+      int ans = 0;
+      for (int i = 0; i < len; ++i) {
+        for (int j = 0; j < len; ++j) {
+          ++dict[A[i] + B[j]];
+        }
+      }
+      for (int i = 0; i < len; ++i) {
+        for (int j = 0; j < len; ++j) {
+          int target = -C[i] - D[j];
+          if (dict.count(target)) ans += dict[target];
         }
       }
       return ans;

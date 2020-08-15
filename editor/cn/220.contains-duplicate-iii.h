@@ -29,7 +29,7 @@ namespace LeetCode220 {
 class Solution {
 public:
     bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
-      return solution3(nums, k, t);
+      return solution2(nums, k, t);
     }
 
     // O(Kn) 极端情况 O(n^2)
@@ -46,8 +46,8 @@ public:
     // 桶排序
     // O(N) O(min(n,k))
     bool solution2(vector<int>& nums, int k, int t) {
-      if (t < 0) return false;
-      long mod = t + 1L;
+      if (t < 0) return false;  // 差值绝对值不可能为负数
+      long mod = t + 1L;  // 按 mod 划分桶排序
       unordered_map<long, long> bucket;
       for (int i = 0; i < nums.size(); ++i) {
         long nth = nums[i] / mod;
@@ -58,7 +58,7 @@ public:
         if (bucket.count(nth - 1) && abs(bucket[nth-1] - nums[i]) <= t) return true;
         if (bucket.count(nth + 1) && abs(bucket[nth+1] - nums[i]) <= t) return true;
         bucket[nth] = nums[i];
-        if (i >= k) bucket.erase(nums[i - k] / mod);  // 移除第一个桶
+        if (i >= k) bucket.erase(nums[i - k] / mod);  // 移除第一个桶，保证k个桶
       }
       return false;
     }

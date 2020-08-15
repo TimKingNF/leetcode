@@ -40,20 +40,16 @@ public:
 
     // 如果 nums2 无法加载到内存中，则将 nums1 构建为 hash
     vector<int> solution1(vector<int>& nums1, vector<int>& nums2) {
+      if (nums1.size() > nums2.size()) swap(nums1, nums2);
       unordered_map<int, int> dict;
-      unordered_map<int, int>::iterator iter;
-      for (int v : nums1) {
-        iter = dict.find(v);
-        // 记录数量
-        if (iter != dict.end()) iter->second += 1;
-        else dict.insert({v, 1});
-      }
+      for (int v : nums1) ++dict[v];
       vector<int> ans;
+
       for (int v : nums2) {
-        iter = dict.find(v);
-        if (iter != dict.end() && iter->second > 0) {
-          ans.push_back(iter->first);
-          if (--iter->second == 0) dict.erase(iter);  // 减少dict可以更快的 find
+        if (dict.count(v)) {
+          if (dict[v] > 1) --dict[v];
+          else dict.erase(v);  // 把 v 移除掉
+          ans.push_back(v);
         }
       }
       return ans;

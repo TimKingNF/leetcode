@@ -27,10 +27,26 @@ namespace LeetCode219 {
 class Solution {
 public:
     bool containsNearbyDuplicate(vector<int>& nums, int k) {
+      return solution2(nums, k);
+    }
+
+    bool solution1(vector<int>& nums, int k) {
       unordered_map<int, int> v;
       for (int i = 0 ; i < nums.size(); ++i) {
         if (v.count(nums[i]) && i - v[nums[i]] <= k) return true;
         v[nums[i]] = i; // 记录最新的下标
+      }
+      return false;
+    }
+
+    // 滑动窗口结合 set
+    bool solution2(vector<int>& nums, int k) {
+      set<int> mySet;
+      int n = nums.size(), j = 0;
+      for (int i = 0; i < n; ++i) {
+        if (mySet.size() > k) mySet.erase(nums[j++]);  // 总元素个数为 k + 1
+        if (mySet.count(nums[i])) return true;
+        mySet.insert(nums[i]);
       }
       return false;
     }

@@ -25,7 +25,7 @@ namespace LeetCode15 {
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-      return solution2(nums);
+      return solution3(nums);
     }
 
     // 将三数问题转化为两数之和问题, 使用双指针
@@ -58,6 +58,7 @@ public:
     }
 
     // 使用字典辅助，这里需要记录原数组的每个数字的出现次数，并且要将重复的元素合并
+    // 过于复杂
     vector<vector<int>> solution2(vector<int>& nums) {
       vector<vector<int>> ans;
       vector<int> new_nums;
@@ -90,6 +91,39 @@ public:
         }
       }
       return ans;
+    }
+
+    // 从 twoSum 的代码修改而来
+    // 代码简单但效率较低
+    vector<vector<int>> solution3(vector<int>& nums) {
+
+      auto twoSum = [&](int left, int right, int target) {
+        vector<vector<int>> ans;
+        int n = right - left + 1;
+        if (n < 2) return ans;
+        unordered_map<int, int> dict;
+        for (int i = left; i <= right; ++i) {
+          if (dict.count(target - nums[i]))
+            ans.push_back({dict[target - nums[i]], i});
+          dict[nums[i]] = i;
+        }
+        return ans;
+      };
+
+      int n = nums.size();
+      if (n < 3) return {};
+      set<vector<int>> ans;
+      sort(nums.begin(), nums.end());
+      for (int i = 0; i < n; ++i) {
+        // 如果 nums[i] 为正数，说明后续不可能有两数之和为负
+        if (nums[i] > 0) break;
+        vector<vector<int>> resultList = twoSum(i + 1, n - 1, -nums[i]);
+        if (resultList.empty()) continue;
+        for (auto v : resultList)
+          ans.insert({nums[i], nums[v[0]], nums[v[1]]});
+        while (i + 1 < n && nums[i] == nums[i+1]) ++i;  // 跳过重复的元素
+      }
+      return vector<vector<int>>(ans.begin(), ans.end());
     }
   };
 //leetcode submit region end(Prohibit modification and deletion)

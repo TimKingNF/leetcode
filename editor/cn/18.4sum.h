@@ -33,6 +33,7 @@ public:
       sort(nums.begin(), nums.end());
       vector<vector<int>> ans;
       int len = nums.size();
+      if (len < 4) return ans;
       int diff, sum;
       for (int i = 0; i <= len - 4; ++i) {  // i 最多遍历到 len - 4, 因为是4数之和
         for (int j = i + 1; j <= len - 3; ++j) {  // 同理 j 最多遍历到 len - 3
@@ -51,10 +52,10 @@ public:
             else --right;
           }
           // 跳过重复的 j 元素
-          while (j + 1 < len && nums[j] == nums[j+1]) ++j;
+          while (j + 1 <= len-3 && nums[j] == nums[j+1]) ++j;
         }
         // 跳过重复的 i 元素
-        while (i + 1 < len && nums[i] == nums[i+1]) ++i;
+        while (i + 1 <= len-4 && nums[i] == nums[i+1]) ++i;
       }
       return ans;
     }
