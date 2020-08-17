@@ -8,8 +8,7 @@
 
 namespace LeetCode_36 {
 
-typedef pair<vector<int>, vector<int>> TreeOrders;
-typedef TreeOrders ArgumentType;
+typedef string ArgumentType;
 typedef vector<int> ResultType;
 typedef tuple<ArgumentType, ResultType> ParamType;
 
@@ -57,25 +56,15 @@ TEST_P(LeetCode_36Test, main) {
   ResultType ret;
   tie(argument, ret) = GetParam();
 
-  Node* root = build_tree<Node, int>(argument.first, argument.second);
+  Node* root = buildTreeBySerialize<Node>(argument);
   Node* orderLinkList = solution->treeToDoublyList(root);
   ASSERT_EQ(printLinkList(orderLinkList), ret);
   ASSERT_TRUE(checkDoublyList(orderLinkList));
 }
 
-vector<int> p1_0{4, 2, 1, 3, 5};
-vector<int> p1_1{1, 2, 3, 4, 5};
-ArgumentType p1(p1_0, p1_1);
-ResultType r1{1, 2, 3, 4, 5};
-
-vector<int> p2_0{2,1};
-vector<int> p2_1{1,2};
-ArgumentType p2(p2_0, p2_1);
-ResultType r2{1, 2};
-
 auto values = ::testing::Values(
-  ParamType(p1, r1),
-  ParamType(p2, r2)
+  ParamType("4,2,5,1,3", {1, 2, 3, 4, 5}),
+  ParamType("2,1", {1, 2})
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode_36ParamTest, LeetCode_36Test, values);

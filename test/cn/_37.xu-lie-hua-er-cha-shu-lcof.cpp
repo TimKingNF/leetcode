@@ -8,8 +8,7 @@
 
 namespace LeetCode_37 {
 
-typedef pair<vector<int>, vector<int>> TreeOrders;
-typedef TreeOrders ArgumentType;
+typedef string ArgumentType;
 // typedef vector<int> ResultType;
 // typedef tuple<ArgumentType, ResultType> ParamType;
 
@@ -26,7 +25,7 @@ TEST_P(LeetCode_37Test, main) {
   Codec codec;
   ArgumentType argument = GetParam();
 
-  TreeNode* root = build_tree<TreeNode, int>(argument.first, argument.second);
+  TreeNode* root = buildTreeBySerialize<TreeNode>(argument);
   TreeNode* copyRoot = codec.deserialize(codec.serialize(root));
 
   vector<int> preorder_root = preorder_range_binary_tree<TreeNode, int>(root);
@@ -37,12 +36,8 @@ TEST_P(LeetCode_37Test, main) {
   ASSERT_EQ(inorder_root, inorder_copy_root);
 }
 
-vector<int> p1_0{1, 2, 3, 4, 5};
-vector<int> p1_1{2, 1, 4, 3, 5};
-ArgumentType p1(p1_0, p1_1);
-
 auto values = ::testing::Values(
-  p1
+  "1,2,3,null,null,4,5"
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode_37ParamTest, LeetCode_37Test, values);

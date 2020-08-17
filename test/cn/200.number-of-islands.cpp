@@ -24,7 +24,7 @@ TEST_P(LeetCode200Test, main) {
 
   auto solution = new LeetCode200::Solution();
   ArgumentType arguments;
-  int ret;
+  ResultType ret;
   tie(arguments, ret) = GetParam();
 
   ASSERT_EQ(solution->numIslands(arguments), ret);  // 断言结果

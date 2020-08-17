@@ -117,6 +117,11 @@ bool link_list_cmp(T* first, T* second) {
   return first == nullptr && second == nullptr;  // 两个都为空指针时，说明比较完毕，两个链表值相同
 }
 
+/**
+* 打印链表
+* @tparam T
+* @param root
+*/
 template<typename T>
 void link_list_print(T* root) {
   while (root) {
@@ -212,43 +217,23 @@ vector<value_type> postorder_range_binary_tree(T* tree) {
   return res;
 }
 
+struct convert_stoi {
+  int operator() (string v) {
+    return stoi(v);
+  }
+
+  int operator() (char* v) {
+    return stoi(v);
+  }
+};
+
 /**
-* 根据前序和中序的结果构造出一个二叉树
+* 将字符串反序列化为二叉树
 * @tparam T
-* @tparam value_type
-* @param preorder
-* @param inorder
+* @tparam convert
+* @param data
 * @return
 */
-template<typename T, typename value_type>
-T* build_tree(vector<value_type>& preorder, vector<value_type>& inorder) {
-  if (!preorder.size()) {
-    return nullptr;
-  }
-  T* root = new T(preorder[0]);
-  stack<T*> stk;
-  stk.push(root);
-  int inorderIndex = 0;
-  for (int i = 1; i < preorder.size(); ++i) {
-    int preorderVal = preorder[i];
-    T* node = stk.top();
-    if (node->val != inorder[inorderIndex]) {
-      node->left = new T(preorderVal);
-      stk.push(node->left);
-    }
-    else {
-      while (!stk.empty() && stk.top()->val == inorder[inorderIndex]) {
-        node = stk.top();
-        stk.pop();
-        ++inorderIndex;
-      }
-      node->right = new T(preorderVal);
-      stk.push(node->right);
-    }
-  }
-  return root;
-}
-
 template<typename T, typename convert>
 T* buildTreeBySerialize(string data) {
   if (data.empty()) return nullptr;
@@ -272,6 +257,23 @@ T* buildTreeBySerialize(string data) {
   return vec[0];
 }
 
+/**
+* 将字符串反序列化为二叉树
+* @tparam T
+* @param data
+* @return
+*/
+template<typename T>
+T* buildTreeBySerialize(string data) {
+  return buildTreeBySerialize<T, convert_stoi>(data);
+}
+
+/**
+* 将二叉树序列化为字符串
+* @tparam T
+* @param root
+* @return
+*/
 template<typename T>
 string treeSerialize(T* root) {
   ostringstream out;  // 使用 ostream 代替 string
@@ -293,6 +295,76 @@ string treeSerialize(T* root) {
   }
   string ans = out.str();
   return ans.substr(0, ans.size()-1);
+}
+
+/**
+* 将字符串反序列化为N叉树
+* @tparam T
+* @tparam convert
+* @param data
+* @return
+*/
+template<typename T, typename convert>
+T* buildNTreeBySerialize(string data) {
+  int n = data.size();
+  if (n == 0 || data == "[]") return nullptr;
+  const string up_bracket = "[";
+
+  convert func;
+  stack<pair<int, void*>> stk;
+  for (int i = 1; i < n-1; ++i) {  // 排除掉头尾 []
+    if (data[i] == ' ') continue;
+    else if (data[i] == '[') {
+      stk.push({0, (void*) up_bracket.c_str()});
+    } else if (isdigit(data[i])) {
+      ostringstream os;
+      os.put(data[i]);
+      int size = 1;
+      // 取到所有的数字
+      while (i + 1 < n && isdigit(data[i+1])) {
+        os.put(data[i+1]);
+        ++i;
+        ++size;
+      }
+      char* num = new char[size+1];
+      os.str().copy(num, size);
+      num[size] = '\0';
+      stk.push({0, (void*) num});  // char* 转为 void*, 记下类型为 0
+    } else {  // "]"
+      // 从栈顶取出数据, 构造 vector
+      vector<T*> children;
+      // 如果不是 T* ，则需要 char* 判断不为 "["
+      while (stk.top().first != 0 || ((char*) stk.top().second) != up_bracket.c_str()) {
+        if (stk.top().first == 1) {
+          children.push_back((T*) stk.top().second);
+        } else {
+          children.push_back(new T(func((char*) stk.top().second)));
+        }
+        stk.pop();
+      }
+      stk.pop();  // pop 掉 "[", 接下来是父节点
+      // 要保证和原数组完全一样的话
+      children = vector<T*>(children.rbegin(), children.rend());
+      T* parent = new T(func((char*) stk.top().second), children);
+      stk.pop();  // pop 父节点字符串
+      stk.push({1, (void*) parent});  // T* 转为 void*, 记下类型为 1
+    }
+  }
+  if (stk.top().first == 0) {  // 只有一个元素的时候
+    return new T(func((char*)stk.top().second));
+  }
+  return (T*) stk.top().second;  // 最后一个元素一定是 root
+}
+
+/**
+* 将字符串反序列化为二叉树
+* @tparam T
+* @param data
+* @return
+*/
+template<typename T>
+T* buildNTreeBySerialize(string data) {
+  return buildNTreeBySerialize<T, convert_stoi>(data);
 }
 
 #endif  // EDITORCN_HEAD_H

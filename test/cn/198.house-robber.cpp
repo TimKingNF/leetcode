@@ -24,7 +24,7 @@ TEST_P(LeetCode198Test, main) {
 
   auto solution = new LeetCode198::Solution();
   ArgumentType arguments;
-  int ret;
+  ResultType ret;
   tie(arguments, ret) = GetParam();
 
   ASSERT_EQ(solution->rob(arguments), ret);  // 断言结果

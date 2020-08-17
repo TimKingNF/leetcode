@@ -9,7 +9,8 @@
 namespace LeetCode70 {
 
 typedef int ArgumentType;
-typedef tuple<ArgumentType, int> ParamType;
+typedef int ResultType;
+typedef tuple<ArgumentType, ResultType> ParamType;
 
 class LeetCode70Test : public ::testing::TestWithParam<ParamType> {
   // You can implement all the usual fixture class members here.
@@ -23,7 +24,7 @@ TEST_P(LeetCode70Test, main) {
 
   auto solution = new LeetCode70::Solution();
   ArgumentType argument;
-  int ret;
+  ResultType ret;
   tie(argument, ret) = GetParam();
 
   ASSERT_EQ(solution->climbStairs(argument), ret);  // 断言结果

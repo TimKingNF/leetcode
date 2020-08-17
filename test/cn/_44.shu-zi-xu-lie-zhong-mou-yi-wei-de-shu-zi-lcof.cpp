@@ -9,7 +9,8 @@
 namespace LeetCode_44 {
 
 typedef int ArgumentType;
-typedef tuple<ArgumentType, int> ParamType;
+typedef int ResultType;
+typedef tuple<ArgumentType, ResultType> ParamType;
 
 class LeetCode_44Test : public ::testing::TestWithParam<ParamType> {
   // You can implement all the usual fixture class members here.
@@ -23,7 +24,7 @@ TEST_P(LeetCode_44Test, main) {
 
   auto solution = new LeetCode_44::Solution();
   ArgumentType arguments;
-  int ret;
+  ResultType ret;
   tie(arguments, ret) = GetParam();
 
   ASSERT_EQ(solution->findNthDigit(arguments), ret);  // 断言结果

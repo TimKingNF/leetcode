@@ -24,7 +24,7 @@ TEST_P(LeetCode389Test, main) {
 
   auto solution = new LeetCode389::Solution();
   ArgumentType arguments;
-  int ret;
+  ResultType ret;
   tie(arguments, ret) = GetParam();
 
   string a, b;

@@ -8,8 +8,7 @@
 
 namespace LeetCode_26 {
 
-typedef pair<vector<int>, vector<int>> TreeOrders;
-typedef tuple<TreeOrders , TreeOrders> ArgumentType;
+typedef tuple<string, string> ArgumentType;
 typedef bool ResultType;
 typedef tuple<ArgumentType, ResultType> ParamType;
 
@@ -25,31 +24,20 @@ TEST_P(LeetCode_26Test, main) {
 
   auto solution = new LeetCode_26::Solution();
   ArgumentType arguments;
-  bool ret;
+  ResultType ret;
   tie(arguments, ret) = GetParam();
 
-  TreeOrders firstOrders, secondOrders;
-  tie(firstOrders, secondOrders) = arguments;
-  TreeNode* first = build_tree<TreeNode, int>(firstOrders.first, firstOrders.second);
-  TreeNode* second = build_tree<TreeNode, int>(secondOrders.first, secondOrders.second);
+  string firstArgs, secondArgs;
+  tie(firstArgs, secondArgs) = arguments;
+  TreeNode* first = buildTreeBySerialize<TreeNode>(firstArgs);
+  TreeNode* second = buildTreeBySerialize<TreeNode>(secondArgs);
 
   ASSERT_EQ(solution->isSubStructure(first, second), ret);
-
-  delete first;
-  delete second;
 }
 
-TreeOrders p1_0({1, 2, 3}, {2, 1, 3});
-TreeOrders p1_1({3, 1}, {1, 3});
-ArgumentType p1(p1_0, p1_1);
-
-TreeOrders p2_0({3, 4, 5, 1, 2}, {5, 4, 1, 3, 2});
-TreeOrders p2_1({4, 1}, {4, 1});
-ArgumentType p2(p2_0, p2_1);
-
 auto values = ::testing::Values(
-  ParamType(p1, false),
-  ParamType(p2, true)
+  ParamType(ArgumentType("1,2,3", "3,1"), false),
+  ParamType(ArgumentType("3,4,5,1,2", "4,1"), true)
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode_26ParamTest, LeetCode_26Test, values);

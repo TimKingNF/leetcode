@@ -8,8 +8,7 @@
 
 namespace LeetCode113 {
 
-typedef pair<vector<int>, vector<int>> TreeOrders;
-typedef tuple<TreeOrders, int> ArgumentType;
+typedef tuple<string, int> ArgumentType;
 typedef vector<vector<int>> ResultType;
 typedef tuple<ArgumentType, ResultType> ParamType;
 
@@ -25,27 +24,20 @@ TEST_P(LeetCode113Test, main) {
 
   auto solution = new LeetCode113::Solution();
   ArgumentType arguments;
-  vector<vector<int>> ret;
+  ResultType ret;
   tie(arguments, ret) = GetParam();
 
-  TreeOrders orders;
+  string args;
   int sum;
-  tie(orders, sum) = arguments;
+  tie(args, sum) = arguments;
 
-  TreeNode* root = build_tree<TreeNode, int>(orders.first, orders.second);
+  TreeNode* root = buildTreeBySerialize<TreeNode>(args);
   ASSERT_EQ(solution->pathSum(root, sum), ret);
-
-  delete root;
 }
 
-vector<int> p1_0_0{5, 4, 11, 7, 2, 8, 13, 4, 5, 1};
-vector<int> p1_0_1{7, 11, 2, 4, 5, 13, 8, 5, 4, 1};
-TreeOrders p1_0(p1_0_0, p1_0_1);
-ArgumentType p1(p1_0, 22);
-ResultType r1{{5, 4, 11, 2}, {5, 8, 4, 5}};
-
 auto values = ::testing::Values(
-  ParamType(p1, r1)
+  ParamType(ArgumentType("5,4,8,11,null,13,4,7,2,null,null,5,1", 22),
+            {{5, 4, 11, 2}, {5, 8, 4, 5}})
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode113ParamTest, LeetCode113Test, values);

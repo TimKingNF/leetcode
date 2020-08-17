@@ -9,7 +9,8 @@
 namespace LeetCode53 {
 
 typedef vector<int> ArgumentType;
-typedef tuple<ArgumentType, int> ParamType;
+typedef int ResultType;
+typedef tuple<ArgumentType, ResultType> ParamType;
 
 class LeetCode53Test : public ::testing::TestWithParam<ParamType> {
   // You can implement all the usual fixture class members here.
@@ -23,7 +24,7 @@ TEST_P(LeetCode53Test, main) {
 
   auto solution = new LeetCode53::Solution();
   ArgumentType arguments;
-  int ret;
+  ResultType ret;
   tie(arguments, ret) = GetParam();
 
   ASSERT_EQ(solution->maxSubArray(arguments), ret);  // 断言结果
