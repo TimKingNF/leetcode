@@ -62,6 +62,8 @@ public:
       }
       return ans;
     }
+
+    // 优先拿最小的饼干满足胃口最小的孩子。也是一样的道理。和上一种方法相比，它们产生的期望是一样的
   };
 //leetcode submit region end(Prohibit modification and deletion)
 
