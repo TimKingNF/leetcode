@@ -45,8 +45,8 @@ public:
       while (left < right) {
         if (right - left == 1) return nums[left] < nums[right] ? right : left;
         middle = left + (right - left) / 2;
-        left_val = middle - 1 >= 0 ? nums[middle - 1] : INT_MIN;
-        right_val = middle + 1 < n ? nums[middle + 1] : INT_MIN;
+        left_val = middle - 1 >= 0 ? nums[middle - 1] : INT32_MIN;
+        right_val = middle + 1 < n ? nums[middle + 1] : INT32_MIN;
 
         if (left_val < nums[middle] && nums[middle] > right_val) return middle;
         else if (left_val <= nums[middle] && nums[middle] <= right_val) left = middle;  // 递增数组

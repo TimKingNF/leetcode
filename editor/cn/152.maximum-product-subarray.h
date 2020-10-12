@@ -29,7 +29,7 @@ public:
 
     // O(n^2)
     int solution1(vector<int>& nums) {
-      int res = INT_MIN;
+      int res = INT32_MIN;
       for (int i = 0; i < nums.size(); ++i) {
         for (int j = i; j < nums.size(); ++j) {
           res = max(accumulate(nums.begin() + i, nums.begin() + j + 1,

@@ -28,7 +28,7 @@ public:
     // O(n * sqrt(n)), O(n)
     int solution1(int n) {
       int max_i = sqrt(n);
-      vector<int> dp(n+1, INT_MAX);  // 组成每个数的最优解
+      vector<int> dp(n+1, INT32_MAX);  // 组成每个数的最优解
       dp[0] = 0;
       vector<int> square_nums(max_i+1, 0);
       for (int i = 1; i <= max_i; ++i) square_nums[i] = i * i;

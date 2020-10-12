@@ -70,14 +70,13 @@ public:
 
     // 简化一下代码
     ListNode* solution2(ListNode* l1, ListNode* l2) {
-      ListNode *head = new ListNode(-1), *pre = head, *cur;
-      int carry = 0, sum = 0;
+      ListNode *head = new ListNode(-1), *pre = head;
+      int carry = 0;
       while (l1 || l2 || carry) {
-        sum = (l1 ? l1->val : 0) + (l2 ? l2->val : 0) + carry;
+        int sum = (l1 ? l1->val : 0) + (l2 ? l2->val : 0) + carry;
         carry = sum / 10;
-        cur = new ListNode(sum % 10);
-        pre->next = cur;
-        pre = cur;
+        pre->next = new ListNode(sum % 10);
+        pre = pre->next;
         if (l1) l1 = l1->next;
         if (l2) l2 = l2->next;
       }

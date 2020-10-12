@@ -58,6 +58,7 @@ public:
         else
           right = middle - 1;
       }
+      // 逼近到最后 left - right = 1, 且right就是元素的最后下界
       if (right < 0 || nums[left - 1] != target)
         return -1;
       return right;

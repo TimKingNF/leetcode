@@ -46,7 +46,7 @@ public:
       int lt = -1, gt = n, i = 0;
       while (i < gt) {
         if (nums[i] == 2) swap(nums[--gt], nums[i]);  // i 无需移动，还要再次判断
-        else if (nums[i] == 0) swap(nums[++lt], nums[i++]);  // i 需要移动
+        else if (nums[i] == 0) swap(nums[++lt], nums[i++]);  // lt 到 i 之间的元素一定为1
         else ++i;
       }
     }

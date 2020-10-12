@@ -37,86 +37,66 @@ class Solution {
  private:
   struct TrieNode {
     unordered_map<char, TrieNode*> dict;
-    bool end = false;
+    bool isEnd = false;
+    string word;
     ~TrieNode() { for (auto v : dict) delete v.second; }
   };
 
   class Trie {
    public:
     TrieNode* root;
+    Trie() { root = new TrieNode(); }
     ~Trie() { delete root; }
-    Trie() { root = new TrieNode; }
     void insert(string word) {
       TrieNode* cur = root;
       for (char c : word) {
-        if (!cur->dict.count(c)) cur->dict[c] = new TrieNode;
+        if (!cur->dict.count(c)) cur->dict[c] = new TrieNode();
         cur = cur->dict[c];
       }
-      cur->end = true;
+      cur->isEnd = true;
+      cur->word = word;  // 记录下本单词
     }
   };
-public:
-    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
-      return solution1(board, words);
-    }
+ public:
+  vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+    if (words.empty() || board.empty() || board[0].empty()) return {};
 
-    bool match(vector<vector<char>>& board, vector<bool>& visited,
-               int curY, int curX,
-               TrieNode* node,
-               string path, vector<string>& paths) {
-      int rows = board.size(), cols = board[0].size();
-      int idx = curY * cols + curX;  // 计算 visited 的索引
-      char c = board[curY][curX];
-      if (visited[idx]) return false;  // 已经访问过
-      if (!node->dict.count(c)) return false;  // 当前字符不满足字典树前缀
+    // 构造前缀树
+    Trie* trie = new Trie;
+    for (auto v : words) trie->insert(v);
 
-      path += c;
-      visited[idx] = true;  // 记录已经访问过
-      int cnt = 0;  // 在遍历过程中满足符合words 的数量
-      // 需要遍历到所有的根节点位置
+    set<string> ans;
+    int rows = board.size(), cols = board[0].size();
 
-      if (node->dict[c]->end) {
-        cnt++;
-        paths.push_back(path);  // 说明在查找的过程中满足了一次结果
+    for (int r = 0; r < rows; ++r) {
+      for (int c = 0; c < cols; ++c) {
+        match(board, trie->root, r, c, ans);
       }
+    }
+    return vector<string>{ans.begin(), ans.end()};  // 避免重复出现
+  }
 
-      // 往上下左右嗅探
-      if (curY - 1 >= 0)
-        cnt += (int) match(board, visited, curY - 1, curX, node->dict[c], path, paths);
-      if (curY + 1 < rows)
-        cnt += (int) match(board, visited, curY + 1, curX, node->dict[c], path, paths);
-      if (curX - 1 >= 0)
-        cnt += (int) match(board, visited, curY, curX - 1, node->dict[c], path, paths);
-      if (curX + 1 < cols)
-        cnt += (int) match(board, visited, curY, curX + 1, node->dict[c], path, paths);
+  void match(vector<vector<char>>& board, TrieNode* node, int r, int c, set<string>& ans) {
+    int rows = board.size(), cols = board[0].size();
+    // 越界或者已经访问过
+    if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] == '/') return;
+    if (!node->dict.count(board[r][c])) return;  // 剪枝
 
-      visited[idx] = false;  // 还原状态
-      return cnt > 0;
+    char orig = board[r][c];
+    // end 条件
+    if (node->dict[orig]->isEnd) {
+      ans.insert(node->dict[orig]->word);
+      // 不能提前结束，也许存在 某个单词是另一个单词的前缀
     }
 
-    // 利用前缀树解法
-    vector<string> solution1(vector<vector<char>>& board, vector<string>& words) {
-      if (words.empty()) return {};
-      int rows = board.size(), cols = board[0].size();
-
-      set<string> ans;
-      Trie* trie = new Trie;
-      for (auto& word : words) trie->insert(word);
-      vector<bool> visited(rows*cols, false);  // 记录是否被访问过
-      vector<string> paths;
-
-      for (int r = 0; r < rows; ++r) {
-        for (int c = 0; c < cols; ++c) {
-          // 能匹配就说明该字符符合字符串的第一个字符，否则就剪枝
-          paths.clear();
-          if (match(board, visited, r, c, trie->root, "", paths)) {
-            for (auto& v : paths) ans.insert(v);
-            visited = vector<bool>(rows*cols, false);  // 重置状态
-          }
-        }
-      }
-      return vector<string>(ans.begin(), ans.end());
-    }
+    board[r][c] = '/';
+    // 继续下探四周
+    match(board, node->dict[orig], r - 1, c, ans);
+    match(board, node->dict[orig], r + 1, c, ans);
+    match(board, node->dict[orig], r, c - 1, ans);
+    match(board, node->dict[orig], r, c + 1, ans);
+    board[r][c] = orig;  // 恢复原状
+  }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

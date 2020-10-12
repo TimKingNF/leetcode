@@ -37,7 +37,7 @@ struct ListNode {
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-      return solution1(head);
+      return solution2(head);
     }
 
     // 找到中点再断开，反转后半部分链表，再进行比较，最后再恢复链表
@@ -77,6 +77,50 @@ public:
         reverseHead = slow;
       }
       return ans;
+    }
+
+    // 对 solution1 进行函数拆分一下
+    bool solution2(ListNode* head) {
+      if (!head) return true;
+      // 找到中点，翻转中点之后的链表，再依次比较。 最后恢复链表
+      ListNode *mid = getMid(head);
+      // 反转right
+      ListNode *reverseRight = reverse(mid), *right = reverseRight;
+      // 互相比较
+      bool ans = true;
+      ListNode *left = head;
+      while (left && right) {
+        if (left->val != right->val) {
+          ans = false;
+          break;
+        }
+        left = left->next;
+        right = right->next;
+      }
+
+      // 从 reverseRight 处恢复链表
+      reverse(reverseRight);
+      return ans;
+    }
+
+    ListNode* getMid(ListNode* head) {
+      ListNode *slow = head, *fast = head;
+      while (fast && fast->next) {
+        fast = fast->next->next;
+        slow = slow->next;
+      }
+      return slow;
+    }
+
+    ListNode* reverse(ListNode* head) {
+      ListNode *pre = nullptr, *tmp;
+      while (head) {
+        tmp = head->next;
+        head->next = pre;
+        pre = head;
+        head = tmp;
+      }
+      return pre;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

@@ -15,8 +15,8 @@
 //
 // 说明： 
 //
-// 假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231, 231 − 1]。如果数值超过这个范围，请返回 INT_MAX (231
-// − 1) 或 INT_MIN (−231) 。 
+// 假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231, 231 − 1]。如果数值超过这个范围，请返回 INT32_MAX (231
+// − 1) 或 INT32_MIN (−231) 。
 //
 // 示例 1: 
 //
@@ -51,7 +51,7 @@
 // 输入: "-91283472332"
 //输出: -2147483648
 //解释: 数字 "-91283472332" 超过 32 位有符号整数范围。 
-//     因此返回 INT_MIN (−231) 。
+//     因此返回 INT32_MIN (−231) 。
 // 
 //
 // 
@@ -90,11 +90,11 @@ public:
         digit = str[left] - '0';
         if (digit >= 0 && digit <= 9) {
           // 判断是否溢出
-          if (ans > INT_MAX / 10)
-            return negative ? INT_MIN : INT_MAX;
-          if (ans == INT_MAX / 10 && digit > 7) {
-            if (!negative) return INT_MAX;
-            if (digit >= 8) return INT_MIN;  // 为负数且最后一位为>=8
+          if (ans > INT32_MAX / 10)
+            return negative ? INT32_MIN : INT32_MAX;
+          if (ans == INT32_MAX / 10 && digit > 7) {
+            if (!negative) return INT32_MAX;
+            if (digit >= 8) return INT32_MIN;  // 为负数且最后一位为>=8
           }
           ans = ans * 10 + digit;
         } else break;
@@ -115,10 +115,10 @@ public:
       int digit;
       for (; i < len && isdigit(str[i]); ++i)  {
         digit = str[i] - '0';
-        if (res > INT_MAX / 10) return flag > 0 ? INT_MAX : INT_MIN;
-        if (res == INT_MAX / 10 && digit > 7) {
-          if (flag == 1) return INT_MAX;
-          if (digit >= 8) return INT_MIN;
+        if (res > INT32_MAX / 10) return flag > 0 ? INT32_MAX : INT32_MIN;
+        if (res == INT32_MAX / 10 && digit > 7) {
+          if (flag == 1) return INT32_MAX;
+          if (digit >= 8) return INT32_MIN;
         }
         res = res * 10 + digit;
       }

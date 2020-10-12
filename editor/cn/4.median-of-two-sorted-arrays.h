@@ -66,8 +66,8 @@ public:
       double median_left = 0, median_right = 0;
       // 从 nums1 和 nums2 中数到 median_right_index
       for (int k = 0, left, right, tmp; k <= median_right_index; ++k) {
-        left = i < m ? nums1[i] : INT_MAX;
-        right = j < n ? nums2[j] : INT_MAX;
+        left = i < m ? nums1[i] : INT32_MAX;
+        right = j < n ? nums2[j] : INT32_MAX;
         if (left < right) {
           tmp = left;
           ++i;
@@ -133,11 +133,11 @@ public:
         // right_part 包含 nums1[i ... m-1] 和 nums2[j ... n-1]
 
         // left_part
-        int nums_iml = i == 0 ? INT_MIN : nums1[i - 1];  // nums1[i-1]
-        int nums_jml = j == 0 ? INT_MIN : nums2[j - 1];  // nums2[j-1]
+        int nums_iml = i == 0 ? INT32_MIN : nums1[i - 1];  // nums1[i-1]
+        int nums_jml = j == 0 ? INT32_MIN : nums2[j - 1];  // nums2[j-1]
         // right_part
-        int nums_i = i == m ? INT_MAX : nums1[i];  // nums[i]
-        int nums_j = j == n ? INT_MAX : nums2[j];  // nums2[j]
+        int nums_i = i == m ? INT32_MAX : nums1[i];  // nums[i]
+        int nums_j = j == n ? INT32_MAX : nums2[j];  // nums2[j]
 
         // 这里要满足 left_part 最大值 <= right_part 最小值
         // 由于 nums1[0 ... i-1] 递增 nums2[j ... n-1] 递减, 故需要取 nums_iml <= nums_j

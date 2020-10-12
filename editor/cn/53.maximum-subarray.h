@@ -20,7 +20,7 @@ namespace LeetCode53 {
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
-      return solution1(nums);
+      return solution2(nums);
     }
 
     // 动态规划, O(n)
@@ -40,7 +40,34 @@ public:
       return res;
     }
 
-    // TODO: 使用分治
+   private:
+    struct Status {
+      int lSum;
+      int rSum;
+      int mSum;  // 最大连续段之和
+      int iSum;  // 区间总和
+    };
+
+    Status merge(Status l, Status r) {
+      int iSum = l.iSum + r.iSum;
+      int lSum = max(l.lSum, l.iSum + r.lSum);
+      int rSum = max(r.rSum, l.rSum + r.iSum);
+      int mSum = max(max(l.mSum, r.mSum), l.rSum + r.lSum);
+      return (Status) {lSum, rSum, mSum, iSum};
+    }
+
+    Status get(vector<int>& nums, int l, int r) {
+      if (l == r) return (Status) {nums[l], nums[l], nums[l], nums[l]};  // 只有一个元素
+      int m = (l + r) >> 1;
+      Status lSub = get(nums, l, m);
+      Status rSub = get(nums, m+1, r);
+      return merge(lSub, rSub);  // 归并
+    }
+
+    // 分治
+    int solution2(vector<int>& nums) {
+      return get(nums, 0, nums.size()-1).mSum;
+    }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

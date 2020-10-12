@@ -50,14 +50,14 @@ public:
     int solution2(int x) {
       if (x < 2) return x;
       int left = 0, right = x;
-      int middle, div;
       while (left < right) {
-        if (right - left == 1) return left;  // 最后肯定会夹逼到差值为1，取下界即可
-        middle = left + (right - left) / 2;
-        div = x / middle;
-        if (div == middle) return middle;
-        else if (div < middle) right = middle;
-        else left = middle;
+        if (right - left == 1) break;  // 最后夹逼到差值为1
+        int mid = left + (right - left) / 2;
+        if (x / mid >= mid) {
+          left = mid;
+        } else {
+          right = mid;
+        }
       }
       return left;
     }

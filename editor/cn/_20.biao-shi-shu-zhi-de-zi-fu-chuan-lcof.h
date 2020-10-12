@@ -12,55 +12,41 @@ namespace LeetCode_20 {
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-private:
-    int pointer = 0;
-public:
-    bool isNumber(string s) {
-      return solution1(s);
+ public:
+  bool isNumber(string s) {
+    s = trim(s);
+    int p = 0;
+    bool numeric = scanInteger(s, p);
+    if (s[p] == '.') {
+      ++p;
+      numeric = scanUnsignedInteger(s, p) || numeric;  // 小数点后可以带纯数字
     }
-
-    bool solution1(string s) {
-      s = trim(s);
-      if (s.length() == 0) return false;
-
-      bool numeric = scanInteger(s);
-      if (s[pointer] == '.') {
-        ++pointer;
-        numeric = scanUnsignedInteger(s) || numeric;
-      }
-
-      if (s[pointer] == 'e' || s[pointer] == 'E') {
-        ++pointer;
-        numeric = numeric && scanInteger(s);
-      }
-      return numeric && s[pointer] == '\0';
+    if (s[p] == 'e' || s[p] == 'E') {
+      ++p;
+      numeric = numeric && scanInteger(s, p);
     }
+    return numeric && p == s.size();
+  }
 
-    // 移除字符串首尾空格
-    string trim(string s) {
-      int i = 0, j = s.length() - 1;
-      while (i < s.length() && s[i] == ' ')
-        ++i;
-      while (j >= 0 && s[j] == ' ')
-        --j;
-      return s.substr(i, j - i + 1);
-    }
+  // 读取包含符号在内的数字
+  bool scanInteger(string s, int& p) {
+    if (p < s.size() && (s[p] == '+' || s[p] == '-')) ++p;
+    return scanUnsignedInteger(s, p);
+  }
 
-  // 扫描，确定字符串是否包含数值
-    bool scanInteger(string s) {
-      if (pointer < s.length() && (s[pointer] == '+' || s[pointer] == '-'))
-        ++pointer;
-      return scanUnsignedInteger(s);
-    }
+  // 读取无符号数字
+  bool scanUnsignedInteger(string s, int& p) {
+    int pre = p;
+    while (p < s.size() && isdigit(s[p])) ++p;
+    return p > pre;
+  }
 
-    // 扫描，确定字符串是否包含纯数值
-    bool scanUnsignedInteger(string s) {
-      int pre = pointer;
-      while (pointer < s.length() && s[pointer] >= '0' && s[pointer] <= '9') {
-        ++pointer;
-      }
-      return pointer > pre;
-    }
+  string trim(string s) {
+    int i = 0, j = s.size() - 1;
+    while (i <= j && s[i] == ' ') ++i;
+    while (i <= j && s[j] == ' ') --j;
+    return s.substr(i, j-i+1);
+  }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

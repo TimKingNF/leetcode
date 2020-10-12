@@ -39,10 +39,11 @@ namespace LeetCode494 {
 class Solution {
 public:
     int findTargetSumWays(vector<int>& nums, int S) {
-      return solution2(nums, S);
+      return solution3(nums, S);
     }
 
     // dfs
+    // O( 2^N )
     int solution1(vector<int>& nums, int S) {
       int ans = 0;
       dfs(nums, S, 0, 0, ans);
@@ -61,7 +62,8 @@ public:
     // 动态规划 + 空间优化
     // O(N * nums.length) O(nums.length)
     int solution2(vector<int>& nums, int S) {
-      vector<int> dp(2001, 0);  // 元素和最多不超过1000
+      // dp 表示 当前和 +1000 ，共有多少种方法数
+      vector<int> dp(2001, 0);  // 元素和最多不超过1000，所以 S 只能在 -1000 到 1000 之间
       dp[nums[0] + 1000] = 1;
       dp[-nums[0] + 1000] += 1;  // 防止 nums[0] 为 0
       for (int i = 1; i < nums.size(); ++i) {
@@ -75,6 +77,33 @@ public:
         dp = next;
       }
       return S > 1000 ? 0 : dp[S+1000];
+    }
+
+    // 转化为 01 背包问题
+    // 设 x 为所有取 + 的 数的和, y 为所有取 - 的数的和（注意是正数之和）
+    // z 为 nums 所有数之和
+    // 则有 x - y = S, x = S + y, 推导可得 2x = S + y + x  = S + z
+    // x = (S+z)/2
+    int solution3(vector<int>& nums, int S) {
+      int z = 0;
+      for (int n : nums) z += n;  // 求得 z
+
+      if ((z + S) & 1) return 0;  // x=(S+z)/2，x必为整数，所以 S+z 是奇数的话无解
+      if (S > z) return 0;  // S 不可能大于 z，所以也是无解
+
+      // 已知有若干个正数之和为 x，转化为背包问题
+      // 给定一个数组和一个容量为x的背包，求有多少种方式让背包装满。
+      int x = (z + S) / 2;
+      vector<int> dp(x+1, 0);
+      dp[0] = 1;  // 只有一种就是什么都不装
+      for (int n : nums) {
+        // 遍历从 x 到 n 的各种情况，累加所有可能的方式
+        // 因为要借用上一轮 dp 的结果，所以从后往前遍历
+        for (int i = x; i >= n; --i) {
+          dp[i] += dp[i - n];
+        }
+      }
+      return dp[x];
     }
   };
 //leetcode submit region end(Prohibit modification and deletion)

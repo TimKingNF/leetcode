@@ -36,49 +36,44 @@ namespace LeetCode295 {
 //leetcode submit region begin(Prohibit modification and deletion)
 class MedianFinder {
  private:
-  // 使用max作为最大堆存储在中位数左边的元素
-  // 使用min作为最小对存储在中位数右边的元素
-  vector<int> min, max;
-public:
-    /** initialize your data structure here. */
-    MedianFinder() {
+  // 数据流中排序，形成有序列表，再取中位数
+  priority_queue<int, vector<int>, less<>> left;  // 最大堆, 存放数据流左边的元素
+  priority_queue<int, vector<int>, greater<>> right;  // 最小堆, 存放数据流右边的元素
+ public:
+  /** initialize your data structure here. */
+  MedianFinder() {
 
-    }
-    
-    void addNum(int num) {
-      // 如果当前总数为偶数, 就将num加入到最小堆, 实现平均分配元素到 min 和 max 中
-      if (((min.size() + max.size()) & 1) == 0) {
-        // 如果要插入的数大于max的最大值
-        // 就从插入之后的 max 中取出最大值插入到最小堆 min，保证 max 的值都小于 min
-        if (max.size() > 0 && num < max[0]) {
-          max.push_back(num);
-          push_heap(max.begin(), max.end(), less<int>());  // 调整堆
-          num = max[0];
-          pop_heap(max.begin(), max.end(), less<int>());
-          max.pop_back();
-        }
-        min.push_back(num);
-        push_heap(min.begin(), min.end(), greater<int>());
-      } else {
-        if (min.size() > 0 && min[0] < num) {
-          min.push_back(num);
-          push_heap(min.begin(), min.end(), greater<int>());
-          num = min[0];
-          pop_heap(min.begin(), min.end(), greater<int>());
-          min.pop_back();
-        }
-        max.push_back(num);
-        push_heap(max.begin(), max.end(), less<int>());
+  }
+
+  void addNum(int num) {
+    if (left.size() == right.size()) {
+      // 当前总元素是偶数
+      // 要保证right 的值都大于 left 的值
+      // 比较当前元素，如果比 left 最大值要小，则从 left 中取出 max 放入 right 中
+      if (left.size() > 0 && num < left.top()) {
+        left.push(num);
+        num = left.top();
+        left.pop();
       }
-    }
-    
-    double findMedian() {
-      if ((min.size() + max.size()) & 1) {
-        return min[0];
-      } else {
-        return ((double) min[0] + max[0]) / 2;
+      right.push(num);
+    } else {
+      // 总元素为奇数，且 right 的元素肯定比 left 多
+      if (right.size() > 0 && num >= right.top()) {
+        right.push(num);
+        num = right.top();
+        right.pop();
       }
+      left.push(num);
     }
+  }
+
+  double findMedian() {
+    if (left.size() == right.size()) {
+      return ((double) left.top() + right.top()) / 2;
+    } else {
+      return right.top();
+    }
+  }
 };
 
 /**

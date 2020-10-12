@@ -71,7 +71,7 @@ public:
     // O(N) 手动维护数组
     int solution3(vector<int>& nums) {
       long tmp[3];
-      tmp[0] = tmp[1] = tmp[2] = LONG_MIN;
+      tmp[0] = tmp[1] = tmp[2] = INT64_MIN;
       for (int i = 0; i < nums.size(); ++i) {
         if (nums[i] == tmp[0] || nums[i] == tmp[1] || nums[i] == tmp[2]) continue;
         if (nums[i] > tmp[0]) {  // 大于最大值
@@ -85,7 +85,7 @@ public:
           tmp[2] = nums[i];
         }
       }
-      return tmp[2] != LONG_MIN ? tmp[2] : tmp[0];
+      return tmp[2] != INT64_MIN ? tmp[2] : tmp[0];
     }
 
 };

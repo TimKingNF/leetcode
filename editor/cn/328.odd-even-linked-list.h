@@ -47,7 +47,7 @@ struct ListNode {
 class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
-      return solution1(head);
+      return solution2(head);
     }
 
     ListNode* solution1(ListNode* head) {
@@ -65,6 +65,20 @@ public:
       evenNode->next = nullptr;  // 防止链表长度是奇数，所以需要断开
       if (!node) preOddNode->next = evenHead->next;
       else if (!node->next) node->next = evenHead->next;
+      return head;
+    }
+
+    // 指针再简化
+    ListNode* solution2(ListNode* head) {
+      if (!head) return head;
+      ListNode *odd = head, *evenHead = head->next, *even = evenHead;
+      while (even && even->next) {
+        odd->next = even->next;
+        odd = odd->next;
+        even->next = odd->next;
+        even = even->next;
+      }
+      odd->next = evenHead;
       return head;
     }
   };

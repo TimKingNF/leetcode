@@ -73,7 +73,7 @@ public:
     bool solution2(TreeNode* root) {
       if (!root) return true;
       stack<TreeNode*> stk;
-      long pre = (long) INT_MIN - 1;
+      long pre = (long) INT32_MIN - 1;
 
       while (!stk.empty() || root != nullptr) {
         while (root != nullptr) {

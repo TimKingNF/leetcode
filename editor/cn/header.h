@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <list>
+#include <math.h>
 #include <queue>
 #include <map>
 #include <stack>
@@ -17,6 +18,7 @@
 #include <algorithm>
 #include <functional>  // std::multiplies
 #include <numeric>  // std::accumulate
+#include <bitset>
 
 using namespace std;
 

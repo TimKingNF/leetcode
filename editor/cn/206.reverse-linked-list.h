@@ -35,14 +35,15 @@ public:
     }
 
     ListNode* solution1(ListNode* head) {
-      ListNode *reversedHead, *pre = nullptr, *node=head;
-      while (node) {
-        reversedHead = node->next;
-        node->next = pre;
-        pre = node;
-        node = reversedHead;
+      if (!head) return nullptr;
+      ListNode *pre = nullptr, *tmp;
+      while (head) {
+        tmp = head->next;
+        head->next = pre;
+        pre = head;
+        head = tmp;
       }
-      return pre;  // 直到 reversedHead 为 nullptr 的时候, 说明pre是首节点
+      return pre;
     }
 
     ListNode* solution2(ListNode* head) {

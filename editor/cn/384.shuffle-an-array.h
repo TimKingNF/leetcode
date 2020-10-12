@@ -40,7 +40,7 @@ public:
     vector<int> shuffle() {
       vector<int> res = orig;
       for (int i = 0; i < res.size(); ++i) {
-        int t = i + rand() % (res.size() - i);
+        int t = i + rand() % (res.size() - i);  // i 之前的元素是已经固定选好的值
         swap(res[i], res[t]);
       }
       return res;

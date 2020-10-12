@@ -16,8 +16,8 @@
 //
 // 
 // 本题中的空白字符只包括空格字符 ' ' 。 
-// 假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231, 231 − 1]。如果数值超过这个范围，请返回 INT_MAX (231
-// − 1) 或 INT_MIN (−231) 。 
+// 假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−231, 231 − 1]。如果数值超过这个范围，请返回 INT32_MAX (231
+// − 1) 或 INT32_MIN (−231) 。
 // 
 //
 // 
@@ -55,7 +55,7 @@
 // 输入: "-91283472332"
 //输出: -2147483648
 //解释: 数字 "-91283472332" 超过 32 位有符号整数范围。 
-//     因此返回 INT_MIN (−231) 。
+//     因此返回 INT32_MIN (−231) 。
 // 
 // Related Topics 数学 字符串
 
@@ -77,10 +77,10 @@ public:
       int digit;
       for (; left < len && isdigit(str[left]); ++left) {
         digit = str[left] - '0';
-        if (ans > INT_MAX / 10) return flag > 0 ? INT_MAX : INT_MIN;
-        if (ans == INT_MAX / 10 && digit > 7) {
-          if (flag > 0) return INT_MAX;
-          if (digit >= 8) return INT_MIN;
+        if (ans > INT32_MAX / 10) return flag > 0 ? INT32_MAX : INT32_MIN;
+        if (ans == INT32_MAX / 10 && digit > 7) {
+          if (flag > 0) return INT32_MAX;
+          if (digit >= 8) return INT32_MIN;
         }
         ans = ans * 10 + digit;
       }

@@ -30,7 +30,7 @@ public:
 
     // O(N)
     int solution1(vector<int>& nums) {
-      int res = INT_MAX;
+      int res = INT32_MAX;
       for (int num : nums) {
         if (num < res) res = num;
       }

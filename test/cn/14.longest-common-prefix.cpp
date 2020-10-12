@@ -34,7 +34,7 @@ auto values = ::testing::Values(
   ParamType({"flower","flow","flight"}, "fl"),
   ParamType({"dog","racecar","car"}, ""),
   ParamType({""}, ""),
-  ParamType({}, ""),
+  ParamType(ArgumentType(), ""),
   ParamType({"car"}, "car"),
   ParamType({"aa", "aa"}, "aa")
 );

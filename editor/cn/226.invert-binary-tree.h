@@ -48,17 +48,10 @@ struct TreeNode {
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-      if (root == nullptr) return root;
-      if (!root->left && !root->right) return root;
-
+      if (!root) return root;
       TreeNode* tmp = root->left;
-      root->left = root->right;
-      root->right = tmp;
-
-      if (root->left)
-        root->left = invertTree(root->left);
-      if (root->right)
-        root->right = invertTree(root->right);
+      root->left = invertTree(root->right);
+      root->right = invertTree(tmp);
       return root;
     }
 };

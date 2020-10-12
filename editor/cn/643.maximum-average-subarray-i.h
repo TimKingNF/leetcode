@@ -29,7 +29,7 @@ public:
     }
 
     double solution1(vector<int>& nums, int k) {
-      double res = INT_MIN, sum;
+      double res = INT32_MIN, sum;
       for (int i = k - 1; i < nums.size(); ++i) {
         sum = 0;
         for (int j = 0; j < k; ++j) {

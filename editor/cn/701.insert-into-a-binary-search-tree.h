@@ -71,6 +71,7 @@ public:
     }
 
     // 插入到某叶节点作为左子树或者右子树
+    // 前提是：插入的新值和树中已有的值都不同
     TreeNode* solution1(TreeNode* root, int val) {
       if (!root) return new TreeNode(val);  // 空数也是二叉搜索树
       solution1core(root, val);

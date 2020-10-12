@@ -47,7 +47,7 @@ public:
         middle = (left + right) / 2;
         if (nums[middle] == nums[right] && nums[middle] == nums[left]) {
           // 这种情况下无从知道如何确定下一步二分的范围，故只能顺序查找
-          int res = INT_MAX;
+          int res = INT32_MAX;
           for (int i = left; i < right; ++i) {
             if (nums[i] < res) res = nums[i];
           }

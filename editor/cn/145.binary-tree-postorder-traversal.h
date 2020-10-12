@@ -67,6 +67,7 @@ public:
           root = root->left;
         } else {
           cur = stk.top();
+          // root 节点的前驱节点就是其右子树节点, 所以判断不为 last_visited
           if (cur->right && cur->right != last_visited) {  // 存在右子树且未被访问
             root = cur->right;
           } else {

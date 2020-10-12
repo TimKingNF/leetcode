@@ -11,7 +11,7 @@ namespace LeetCode622 {
 typedef tuple<vector<string>, vector<vector<int>>> ArgumentType;
 typedef vector<int> ResultType;
 typedef tuple<ArgumentType, ResultType> ParamType;
-int Null = INT_MIN;
+int Null = INT32_MIN;
 
 class LeetCode622Test : public ::testing::TestWithParam<ParamType> {
   // You can implement all the usual fixture class members here.

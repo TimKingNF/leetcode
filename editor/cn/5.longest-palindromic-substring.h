@@ -22,7 +22,7 @@ namespace LeetCode5 {
 class Solution {
 public:
     string longestPalindrome(string s) {
-      return solution3(s);
+      return solution4(s);
     }
 
     // 暴力枚举所有长度>=2的子串. O(n^3) O(1)
@@ -75,7 +75,7 @@ public:
     }
 
     // 动态规划
-    // O(n2), O(n2)
+    // O(n^2), O(n^2)
     string solution3(string s) {
       int n = s.size(), maxLen = 1, begin = 0;
       bool dp[n][n];  // 第一维表示子串的起点，第二维表示子串的终点, 记录从i到j是否是回文
@@ -101,11 +101,57 @@ public:
       return s.substr(begin, maxLen);
     }
 
-    // TODO: Manacher 算法
+    // Manacher 算法
+    // O( N )
     string solution4(string s) {
-      return "";
+      string T = preprocess(s);
+      int n = T.size(), P[n];
+      fill(P, P+n, 0);
+      int C = 0, R = 0;
+      for (int i = 1; i < n - 1; ++i) {
+        int i_mirror = 2 * C - i;  // 求得 i 关于 C 的对称位置
+        if (R > i) {
+          P[i] = min(R - i, P[i_mirror]);  // 防止超出 R
+        } else {
+          P[i] = 0;  // 等于 R 的情况
+        }
+
+        // 利用中心扩散法计算 P[i]
+        while (T[i+1+P[i]] == T[i-1-P[i]]) {
+          P[i]++;
+        }
+
+        // 判断是否需要更新 R
+        if (i + P[i] > R) {
+          C = i;
+          R = i + P[i];
+        }
+      }
+
+      // 找出 P[i] 最大值
+      int maxLen = 0;
+      int centerIndex = 0;
+      for (int i = 1; i < n - 1; ++i) {
+        if (P[i] > maxLen) {
+          maxLen = P[i];
+          centerIndex = i;
+        }
+      }
+      int start = (centerIndex - maxLen) / 2;  // 求得在原始字符串中的下标
+      return s.substr(start, maxLen);
     }
-  };
+
+    // 预处理字符串，在每个字符间都添加 #，头尾添加分界符
+    string preprocess(string s) {
+      int n = s.size();
+      if (n == 0) return "^$";
+      ostringstream os;
+      os << '^';
+      for (auto c : s) os << '#' << c;
+      os << "#$";
+      return os.str();
+    }
+};
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

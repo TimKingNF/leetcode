@@ -37,26 +37,30 @@ namespace LeetCode79 {
 class Solution {
 public:
     bool exist(vector<vector<char>>& board, string word) {
+      return solution1(board, word);
+    }
+
+    bool solution1(vector<vector<char>>& board, string word) {
       int rows = board.size(), cols = board[0].size();
       for (int r = 0; r < rows; ++r) {
         for (int c = 0; c < cols; ++c) {
-          if (dfs(board, word, r, c, 0)) return true;
+          if (solution1core(board, word, r, c, 0)) return true;
         }
       }
       return false;
     }
 
-    bool dfs(vector<vector<char>>& board, string word, int r, int c, int index) {
+    bool solution1core(vector<vector<char>>& board, string word, int r, int c, int index) {
       int rows = board.size(), cols = board[0].size();
       if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] != word[index]) return false;
       if (index == word.size() - 1) return true;
       // 记录当前位置已被遍历，使用 board 可以节约内存
       char tmp = board[r][c];
       board[r][c] = '/';
-      bool found = dfs(board, word, r+1, c, index+1) ||
-                   dfs(board, word, r-1, c, index+1) ||
-                   dfs(board, word, r, c+1, index+1) ||
-                   dfs(board, word, r, c-1, index+1);
+      bool found = solution1core(board, word, r+1, c, index+1) ||
+        solution1core(board, word, r-1, c, index+1) ||
+        solution1core(board, word, r, c+1, index+1) ||
+        solution1core(board, word, r, c-1, index+1);
       board[r][c] = tmp;
       return found;
     }

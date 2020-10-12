@@ -49,7 +49,7 @@ public:
         while (!q.empty() && nums[i] >= nums[q.front()])
           q.pop_front();
         q.push_front(i);
-        if (i >= k - 1)
+        if (i >= k - 1)  // 满足第一个 k 窗口之后
           ans.push_back(nums[q.back()]);  // 返回最大的元素
       }
       return ans;

@@ -35,13 +35,13 @@ auto values = ::testing::Values(
   ParamType("    -45", -45),
   ParamType("4093 ", 4093),
   ParamType("words and 987", 0),
-  ParamType("-91283472332", INT_MIN),
+  ParamType("-91283472332", INT32_MIN),
   ParamType("    -", 0),
   ParamType("    -a12", 0),
   ParamType("3.14159", 3),
   ParamType("3.14.15", 3),
   ParamType("+-2", 0),
-  ParamType("-2147483648", INT_MIN),
+  ParamType("-2147483648", INT32_MIN),
   ParamType("       ", 0)
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器

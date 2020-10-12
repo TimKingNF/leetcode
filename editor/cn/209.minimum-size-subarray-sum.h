@@ -33,7 +33,7 @@ public:
     // O(n2)
     int solution1(int s, vector<int>& nums) {
       if (nums.empty()) return 0;
-      int ans = INT_MAX, n = nums.size();
+      int ans = INT32_MAX, n = nums.size();
       int dp[n];  // 记录从j到当前下标的和
       for (int i = 0; i < n; ++i) dp[i] = 0;
 
@@ -43,14 +43,14 @@ public:
           if (dp[j] >= s) ans = min(ans, i - j + 1);
         }
       }
-      return ans == INT_MAX ? 0 : ans;
+      return ans == INT32_MAX ? 0 : ans;
     }
 
     // TODO：滑动窗口
     int solution2(int s, vector<int>& nums) {
       if (nums.empty()) return 0;
       int n = nums.size();
-      int ans = INT_MAX;
+      int ans = INT32_MAX;
       int start = 0, end = 0, sum = 0;
       while (end < n) {
         sum += nums[end];
@@ -61,7 +61,7 @@ public:
         }
         ++end;
       }
-      return ans == INT_MAX ? 0 : ans;
+      return ans == INT32_MAX ? 0 : ans;
     }
   };
 //leetcode submit region end(Prohibit modification and deletion)

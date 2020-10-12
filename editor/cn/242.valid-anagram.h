@@ -31,12 +31,27 @@ public:
 
     bool solution1(string s, string t) {
       if (s.size() < t.size()) swap(s, t);  // 使用字符串长的构建字典
-      int dict[256] = {0};
+      int dict[26] = {0};
       for (auto c : s) ++dict[c];
       for (auto c : t) dict[c] > 0 && --dict[c];  // 出现过的才 --
       int sum = 0;
-      for (int i = 0; i < 256; ++i) sum += dict[i];
+      for (int i = 0; i < 26; ++i) sum += dict[i];
       return sum == 0;
+    }
+
+    // 效率更高
+    bool solution2(string s, string t) {
+      if (s.size() != t.size()) return false;  // 长度不一致一定不是
+      int dict[26] = {0};
+      for (int i = 0; i < s.size(); ++i) {
+        dict[s[i] - 'a']++;
+        dict[t[i] - 'a']--;
+      }
+
+      for (int i = 0; i < 26; ++i) {
+        if (dict[i] != 0) return false;
+      }
+      return true;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

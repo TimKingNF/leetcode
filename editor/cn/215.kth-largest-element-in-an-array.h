@@ -24,7 +24,7 @@ namespace LeetCode215 {
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
-      return solution2(nums, k);
+      return solution3(nums, k);
     }
 
     // 排序之后第k个的元素
@@ -39,9 +39,27 @@ public:
       return -1;
     }
 
+    // 堆
+    // O( N * logN ), O( k )
+    int solution2(vector<int>& nums, int k) {
+      priority_queue<int, vector<int>, greater<>> q;  // 最小堆
+      for (int v : nums) {
+        if (q.size() < k) {
+          q.push(v);  // 直接插入
+        } else {
+          // 和当前最小堆中的最小值进行比较
+          if (v > q.top()) {
+            q.push(v);
+            q.pop();
+          }
+        }
+      }
+      return q.top();
+    }
+
     // 利用快排的思想，随机取一个元素分为两组
     // O( N )
-    int solution2(vector<int>& nums, int k) {
+    int solution3(vector<int>& nums, int k) {
       int n = nums.size();
       function<int(int, int)> partition = [&](int left, int right) {
         int v = nums[left];

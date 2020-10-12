@@ -46,7 +46,7 @@ public:
       return false;
     }
 
-    // TODO: O(nlog2n)  极端情况下， 如果数组是升序，该算法会退化为 O(n^2)
+    // TODO: O(N * logN)  极端情况下， 如果数组是升序，该算法会退化为 O(n^2)
     void quick_sort(vector<int>& nums, int begin, int end) {
       if (begin >= end) return;
 
@@ -54,7 +54,7 @@ public:
       while (true) {
         do {
           left++;
-        } while (left <= end && nums[left] < t);  // 遍历到一个大于等于的元素
+        } while (left <= end && nums[left] < t);  // 遍历直到第一个大于等于的元素
         do {
           right--;
         } while (right >= begin && nums[right] > t);

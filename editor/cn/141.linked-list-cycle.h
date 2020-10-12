@@ -73,7 +73,7 @@ public:
         if (slow == fast) return true;
       }
       return false;
-      if (!fast || fast->next) return 0;  // 说明不存在环
+      // if (!fast || fast->next) return 0;  // 说明不存在环
       // 在第一次相遇之后继续往下在，到在此相遇，fast会比slow多走 R 步，即环的大小
       // int size = 1;
       // fast = fast->next->next;

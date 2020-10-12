@@ -59,7 +59,7 @@ public:
         y = (i-1) % 2;
         for (int j = 0; j <= k; ++j) {
           max_profit[x][j][have_not] = max(max_profit[y][j][have_not],
-                                           j == 0 ? INT_MIN : max_profit[y][j-1][has] + prices[i]);  // 处理一下边界值
+                                           j == 0 ? INT32_MIN : max_profit[y][j-1][has] + prices[i]);  // 处理一下边界值
           max_profit[x][j][has] = max(max_profit[y][j][has], max_profit[y][j][have_not] - prices[i]);
           arr = {max_profit[x][j][have_not], max_profit[x][j][has], res};
           res = *max_element(arr.begin(), arr.end());
