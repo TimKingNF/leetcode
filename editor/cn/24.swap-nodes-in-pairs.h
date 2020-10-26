@@ -47,20 +47,19 @@ public:
 
     // 循环: O(N), O(1)
     ListNode* solution2(ListNode* head) {
-      if (!head) return head;
-      ListNode *dummy = new ListNode(-1), *prev = dummy, *first, *second;
-      dummy->next = head;
-      while (head && head->next) {
-        first = head;
-        second = head->next;
+      if (!head || !head->next) return head; // list length is 0 or 1
+
+      ListNode *cur = head, *dummy = new ListNode(0), *pre = dummy, *next;
+      while (cur && cur->next) {
+        next = cur->next;
 
         // swap
-        prev->next = second;
-        first->next = second->next;
-        second->next = first;
+        cur->next = next->next;
+        next->next = cur;
+        pre->next = next;  // 原来的前一个节点，指向两两调换后的节点
 
-        prev = first;
-        head = prev->next;
+        pre = cur;
+        cur = cur->next;  // 指向下下个元素
       }
       return dummy->next;
     }
