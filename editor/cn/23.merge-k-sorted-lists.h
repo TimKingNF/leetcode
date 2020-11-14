@@ -71,7 +71,7 @@ public:
  private:
     struct cmp {
       bool operator() (ListNode* first, ListNode* second) {
-        return first->val > second->val;  // 从小到大
+        return first->val > second->val;  // 从大到小
       }
     };
 

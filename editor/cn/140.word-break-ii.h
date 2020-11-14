@@ -99,7 +99,7 @@ public:
     vector<string> solution2(string s, vector<string>& wordDict) {
       if (s.empty() || wordDict.empty()) return {};
       unordered_set<string> dict{wordDict.begin(), wordDict.end()};
-      unordered_map<int, vector<string>> map;
+      unordered_map<int, vector<string>> map;  // 记录在某个下标之后能够切分的字符串
       return solution2core(s, dict, map, 0);
     }
 
@@ -111,7 +111,7 @@ public:
       vector<string> ans;
       int n = s.size();
       if (l == n) {
-        ans.push_back("");  // 表示到达了结尾
+        ans.emplace_back("");  // 表示到达了结尾
         return ans;
       }
       string tmp;
@@ -169,7 +169,7 @@ public:
       // base case
       dp[0] = true;
 
-      for (int i = 1; i <= n; ++i) {
+      for (int i = 1; i <= n; ++i) {  // i 是截止位置
         for (int j = 0; j < i; ++j) {
           if (dp[j] && dict.count(s.substr(j, i - j))) {
             dp[i] = true;

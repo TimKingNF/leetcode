@@ -89,12 +89,31 @@ public:
     vector<int> solution2(vector<int>& arr) {
       // 递推计算出从0-10000的每个数的1的个数
       int bits[10010];
-      for (int i = 1; i < 10010; ++i)
-        bits[i] = bits[i>>1] + (i & 1);
+      for (int i = 1; i < 10010; ++i) bits[i] = bits[i>>1] + (i & 1);
+
       sort(arr.begin(), arr.end(), [&](int x, int y) {
         return bits[x] == bits[y] ? x < y : bits[x] < bits[y];
       });
       return arr;
+    }
+
+    // 计数排序
+    vector<int> solution3(vector<int>& arr) {
+      using pq_t = priority_queue<int, vector<int>, greater<>>;
+      vector<pq_t> dict(14, pq_t{});  // 0 <= arr[i] <= 10^4
+
+      for (int i : arr) dict[countOfBitsOne(i)].push(i);
+
+      int n = arr.size();
+      vector<int> ans(n);
+      int k = 0;
+      for (int i = 0; i < 14; ++i) {
+        while (!dict[i].empty()) {
+          ans[k++] = dict[i].top();
+          dict[i].pop();
+        }
+      }
+      return ans;
     }
   };
 //leetcode submit region end(Prohibit modification and deletion)

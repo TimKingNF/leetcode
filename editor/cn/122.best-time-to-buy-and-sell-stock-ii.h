@@ -72,7 +72,7 @@ public:
       return res;
     }
 
-    // O(n)
+    // O(n)  贪心法
     int solution2(vector<int>& prices) {
       // 前一天买立即卖, 线性扫描即可
       int len = prices.size();

@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <list>
-#include <math.h>
+#include <cmath>
 #include <queue>
 #include <map>
 #include <stack>
