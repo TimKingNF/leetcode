@@ -1,3 +1,4 @@
 cmake-build-debug/
+cmake-build-debug-gnu/
 editor/cn/doc
 editor/cn/*.json

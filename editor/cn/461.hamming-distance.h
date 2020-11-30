@@ -32,7 +32,7 @@ public:
       int v = x ^ y;  // 消去相同的位，只保留不同的位
       int ans = 0;
       while (v != 0) {
-        v = v & (v - 1);
+        v = v & (v - 1);  // 去掉最高位的1
         ++ans;
       }
       return ans;

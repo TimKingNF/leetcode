@@ -60,6 +60,7 @@ public:
       return ans;
     }
 
+    // O(N^2)
     int solution2(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
       unordered_map<int, int> dict;
       int len = A.size();

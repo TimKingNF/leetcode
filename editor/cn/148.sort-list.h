@@ -82,7 +82,7 @@ public:
     // 归并排序, 递归法, 从上到下合并
     ListNode* solution2(ListNode* head) {
       if (!head || !head->next) return head;
-      ListNode *slow = head, *fast = head->next;
+      ListNode *slow = head, *fast = head->next;  // fast 从 head->next 开始，防止2节点递归
       while (fast && fast->next) {
         fast = fast->next->next;
         slow = slow->next;
