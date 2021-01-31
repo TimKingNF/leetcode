@@ -49,9 +49,10 @@ public:
     string solution1(string num, int k) {
       string ans;  // 使用string模拟栈
       for (char i : num) {
+        // 比较相邻的元素，如果左边的元素比当前大，则把左边元素移除，可以使得剩下的元素更小
         while (k > 0 && !ans.empty() && i < ans.back()) {
           ans.pop_back();
-          --k;  // 表示移除一个数字
+          --k;  // 表示移除了一个数字
         }
         // 跳过前置0
         if (ans.empty() && i == '0') continue;

@@ -63,6 +63,46 @@ public:
       }
       return ans;
     }
+
+    // 单调栈，会超时
+    vector<int> solution2(vector<int>& nums, int k) {
+      stack<pair<int, int>> stk;
+      vector<int> ans;
+      int v, idx;
+
+      for (int i = 0, j = 0; j < nums.size(); ++j) {
+        if (j - i == k) {  // 说明已达 k+1 个滑动窗口
+          // i 元素待移除
+          tie(v, idx) = stk.top();
+          if (nums[i] == v && idx == i) {  // 待移除元素等于栈顶元素，即最大值, 且下标也符合
+            // 移除栈中下标小于等于 idx 的元素
+            while (!stk.empty() && stk.top().second <= idx) {
+              stk.pop();
+            }
+            // 补上从 i+1 开始，到 j 的元素, 构成新的单调栈
+            int k = i + 1;
+            while (k < j) {
+              if (stk.empty() || nums[k] >= stk.top().first) {
+                stk.push({nums[k], k});
+              }
+              ++k;
+            }
+          }
+          ++i;  // i 自增
+        }
+
+        // push 新元素
+        if (stk.empty() || nums[j] >= stk.top().first) {
+          stk.push({nums[j], j});
+        }
+
+        // 满足 k 个窗口
+        if (j - i + 1 == k) {
+          ans.push_back(stk.top().first);
+        }
+      }
+      return ans;
+    }
   };
 //leetcode submit region end(Prohibit modification and deletion)
 

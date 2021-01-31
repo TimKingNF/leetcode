@@ -34,7 +34,7 @@ namespace LeetCode605 {
 class Solution {
 public:
     bool canPlaceFlowers(vector<int>& flowerbed, int n) {
-      return solution1(flowerbed, n);
+      return solution2(flowerbed, n);
     }
 
     bool solution1(vector<int>& flowerbed, int n) {
@@ -47,6 +47,23 @@ public:
         ++i;
       }
       return n <= 0;
+    }
+
+    // 跳格子
+    bool solution2(vector<int>& flowerbed, int n) {
+      if (n == 0) return true;
+      int len = flowerbed.size();
+      for (int i = 0; i < len; ) {
+        if (flowerbed[i] == 1) {
+          i += 2;  // 当前已经种了花，跳1格
+        } else if (i == len - 1 || flowerbed[i+1] == 0) {  // 当前没有花，且后一格也没有花了
+          if (--n <= 0) return true;  // 此格能种
+          i += 2;
+        } else {  // 后一格有花，需要跳3格
+          i += 3;
+        }
+      }
+      return false;
     }
   };
 //leetcode submit region end(Prohibit modification and deletion)

@@ -57,8 +57,8 @@ public:
         if (s[j] >= g[i]) {
           ++ans;
           ++j;
-          ++i;
-        } else ++i;
+        }
+        ++i;
       }
       return ans;
     }

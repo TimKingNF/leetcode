@@ -2,8 +2,8 @@
 // Created by timking.nf@foxmail.com on 2020/5/11.
 //
 
-#ifndef EDITORCN_HEAD_H
-#define EDITORCN_HEAD_H
+#ifndef EDITOR_BASE_HEAD_H
+#define EDITOR_BASE_HEAD_H
 
 #include <vector>
 #include <list>
@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <iostream>
+#include <sstream>
 #include <iterator>
 #include <algorithm>
 #include <functional>  // std::multiplies
@@ -369,4 +370,4 @@ T* buildNTreeBySerialize(string data) {
   return buildNTreeBySerialize<T, convert_stoi>(data);
 }
 
-#endif  // EDITORCN_HEAD_H
+#endif  // EDITOR_BASE_HEAD_H

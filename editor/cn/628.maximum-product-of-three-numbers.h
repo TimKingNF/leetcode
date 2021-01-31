@@ -59,6 +59,13 @@ public:
       }
       return max(first_num * second_num * third_num, reverse_first_num * reverse_second_num * first_num);
     }
+
+    int solution2(vector<int>& nums) {
+      sort(nums.begin(), nums.end());
+      int n = nums.size();
+      // 两负一正 和 最大3个 比较
+      return max(nums[0] * nums[1] * nums[n-1], nums[n-1] * nums[n-2] * nums[n-3]);
+    }
   };
 //leetcode submit region end(Prohibit modification and deletion)
 

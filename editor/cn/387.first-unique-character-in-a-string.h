@@ -35,6 +35,28 @@ public:
       }
       return -1;
     }
+
+    // 相对 solution1 来说速度更快
+    int solution2(string s) {
+      int position[26];
+      fill(position, position+26, -2);
+      int n = s.size();
+      for (int i = 0; i < n; ++i) {
+        int idx = s[i]-'a';
+        if (position[idx] == -1) continue;  // 已经是多次出现
+        if (position[idx] >= 0) position[idx] = -1;  // 多次出现
+        else position[idx] = i;
+      }
+      int first = n;
+      for (int i = 0; i < 26; ++i) {
+        int pos = position[i];
+        if (pos >= 0 && pos < first) {
+          first = pos;
+        }
+      }
+      if (first == n) return -1;
+      return first;
+    }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

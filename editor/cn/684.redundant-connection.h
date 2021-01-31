@@ -54,7 +54,7 @@ public:
       vector<int> rp(1001);
       int n = edges.size();
       // 初始化各节点的集合，其代表节点就是其本身
-      for (int i = 0; i <= n; ++i) rp[i] = i;
+      for (int i = 0; i < n; ++i) rp[i] = i;
 
       for (int i = 0; i < n; ++i) {
         // 找到边上对应两个点的代表节点

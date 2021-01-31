@@ -8,11 +8,37 @@
 
 namespace LeetCode1 {
 
-TEST(LeetCode1Test, main) {
+typedef tuple<vector<int>, int> ArgumentType;
+typedef vector<int> ResultType;
+typedef tuple<ArgumentType, ResultType> ParamType;
+
+class LeetCode1Test : public ::testing::TestWithParam<ParamType> {
+  // You can implement all the usual fixture class members here.
+  // To access the test parameter, call GetParam() from class
+  // TestWithParam<T>.
+};
+
+TEST_P(LeetCode1Test, main) {
+  // Inside a test, access the test parameter with the GetParam() method
+  // of the TestWithParam<T> class:
+
   auto solution = new LeetCode1::Solution();
-  vector<int> nums = {2, 7, 11, 15};
-  vector<int> asserts = {0, 1};
-  ASSERT_EQ(solution->twoSum(nums, 9), asserts);
+  ArgumentType arguments;
+  ResultType ret;
+  tie(arguments, ret) = GetParam();
+
+  vector<int> nums;
+  int target;
+  tie(nums, target) = arguments;
+
+  ASSERT_EQ(solution->twoSum(nums, target), ret);  // 断言结果
+
 }
+
+auto values = ::testing::Values(
+  ParamType(ArgumentType({2, 7, 11, 15}, 9), {0, 1})
+);
+//第一个参数是前缀；第二个是类名；第三个是参数生成器
+INSTANTIATE_TEST_SUITE_P(LeetCode1ParamTest, LeetCode1Test, values);
 
 }
