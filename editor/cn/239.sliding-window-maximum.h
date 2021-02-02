@@ -50,16 +50,18 @@ public:
 
     vector<int> solution1(vector<int>& nums, int k) {
       if (nums.empty()) return {};
+      int n = nums.size();
       deque<int> q;
-      vector<int> ans;
-      for (int i = 0; i < nums.size(); ++i) {
+      vector<int> ans(n-k+1);
+      int cnt = 0;
+      for (int i = 0; i < n; ++i) {
         if (!q.empty() && i - q.back() == k)  // 最大值超出了滑动窗口范围
           q.pop_back();
         while (!q.empty() && nums[i] >= nums[q.front()])
           q.pop_front();
         q.push_front(i);
         if (i >= k - 1)
-          ans.push_back(nums[q.back()]);
+          ans[cnt++] = nums[q.back()];
       }
       return ans;
     }

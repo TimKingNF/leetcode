@@ -23,7 +23,9 @@ namespace LeetCode19 {
 struct ListNode {
     int val;
     ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(NULL) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
 //leetcode submit region begin(Prohibit modification and deletion)
@@ -32,7 +34,9 @@ struct ListNode {
  * struct ListNode {
  *     int val;
  *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
 class Solution {
@@ -64,19 +68,22 @@ public:
     // 更好理解的双指针法
     ListNode* solution2(ListNode* head, int n) {
       if (!head) return nullptr;
-      // 新建一个节点指向 head
-      ListNode* root = new ListNode(0);
-      root->next = head;
-      ListNode *slow, *fast;
-      slow = fast = root;
-      // fast 先走n步
-      for (int i = 0; i <= n; ++i) fast = fast->next;
-      while (fast) {
-        fast = fast->next;
-        slow = slow->next;
+      ListNode* dummy = new ListNode();
+      dummy->next = head;
+
+      ListNode *pre = dummy, *first = head, *second = head;
+      // 先走 n 步
+      for (int i = 0; i < n; ++i) first = first->next;
+
+      // 获取倒数第 n 个节点
+      while (first) {
+        first = first->next;
+        pre = second;
+        second = second->next;
       }
-      slow->next = slow->next->next;
-      return root->next;
+      // 执行删除
+      pre->next = second->next;
+      return dummy->next;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

@@ -3,6 +3,8 @@
 // Created by timking.nf@foxmail.com on 2021/1/30.
 //
 
+#include "header.h"
+
 namespace CIG_1_1003 {
 
 class Solution {

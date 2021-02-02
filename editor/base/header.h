@@ -20,6 +20,7 @@
 #include <functional>  // std::multiplies
 #include <numeric>  // std::accumulate
 #include <bitset>
+#include <exception>
 
 using namespace std;
 
@@ -98,6 +99,29 @@ T* construct_link_list(vector<value_type>& input_list) {
   for (int i = 1; i < input_list.size(); ++i) {
     new_node = new T(input_list[i]);
     tmp->next = new_node;
+    tmp = new_node;
+  }
+  return head;
+}
+
+/**
+* 构造一个双向链表
+* @tparam T
+* @tparam value
+* @param input_list
+* @return
+*/
+template<typename T, typename value_type>
+T* construct_double_link_list(vector<value_type>& input_list) {
+  if (input_list.empty()) return nullptr;
+
+  T* head = new T(input_list[0], nullptr, nullptr);
+  T* tmp = head;
+  T* new_node;
+  for (int i = 1; i < input_list.size(); ++i) {
+    new_node = new T(input_list[i]);
+    tmp->next = new_node;
+    new_node->prev = tmp;
     tmp = new_node;
   }
   return head;
