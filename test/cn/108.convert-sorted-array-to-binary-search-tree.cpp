@@ -9,7 +9,7 @@
 namespace LeetCode108 {
 
 typedef vector<int> ArgumentType;
-typedef string ResultType;
+typedef set<string> ResultType;
 typedef tuple<ArgumentType, ResultType> ParamType;
 
 class LeetCode108Test : public ::testing::TestWithParam<ParamType> {
@@ -28,12 +28,12 @@ TEST_P(LeetCode108Test, main) {
   tie(argument, ret) = GetParam();
 
   TreeNode* root = solution->sortedArrayToBST(argument);
-  ASSERT_EQ(treeSerialize(root), ret);
+  ASSERT_TRUE(ret.count(treeSerialize(root)));
 }
 
 auto values = ::testing::Values(
-  ParamType({-10,-3,0,5,9}, "0,-3,9,-10,null,5"),
-  ParamType({-10,-3,0,5}, "0,-3,5,-10")
+  ParamType({-10,-3,0,5,9}, {"0,-3,9,-10,null,5", "0,-10,5,null,-3,null,9"}),
+  ParamType({-10,-3,0,5}, {"0,-3,5,-10", "-3,-10,0,null,null,null,5"})
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode108ParamTest, LeetCode108Test, values);

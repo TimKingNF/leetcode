@@ -38,21 +38,22 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
-      return solution1(root);
+      return solution4(root);
     }
 
     // 递归
     vector<int> solution1(TreeNode* root) {
       vector<int> ans;
-      solution1core(root, ans);
-      return ans;
-    }
 
-    void solution1core(TreeNode* root, vector<int>& ans) {
-      if (!root) return;
-      solution1core(root->left, ans);
-      solution1core(root->right, ans);
-      ans.push_back(root->val);
+      function<void(TreeNode*)> postorder = [&](TreeNode* root) {
+        if (!root) return;
+        postorder(root->left);
+        postorder(root->right);
+        ans.push_back(root->val);
+      };
+
+      postorder(root);
+      return ans;
     }
 
     // TODO: 迭代
@@ -81,7 +82,57 @@ public:
       }
       return ans;
     }
-  };
+
+    // 使用两个栈实现迭代
+    vector<int> solution3(TreeNode* root) {
+      vector<int> ans;
+      if (!root) return ans;
+
+      stack<TreeNode*> s1, s2;
+      s1.push(root);
+      while (!s1.empty()) {
+        root = s1.top();
+        s1.pop();
+        s2.push(root);
+        // 因为写入到 s2 的顺序，左子树在最上面，所以先写入 左子树到 s1
+        if (root->left) s1.push(root->left);
+        if (root->right) s1.push(root->right);
+      }
+      while (!s2.empty()) {
+        ans.push_back(s2.top()->val);
+        s2.pop();
+      }
+      return ans;
+    }
+
+    // 相对于 solution2 更简洁的写法
+    vector<int> solution4(TreeNode* root) {
+      vector<int> ans;
+      if (!root) return ans;
+
+      stack<TreeNode*> stk;
+      stk.push(root);
+      TreeNode *cur;  // 记录当前的节点
+      while (!stk.empty()) {
+        cur = stk.top();
+
+        if (cur->left && cur->left != root && cur->right != root) {
+          // 左右left right 都不是最后一个处理的节点，说明左子树尚未处理过
+          stk.push(cur->left);
+        } else if (cur->right && cur->right != root) {
+          // 说明左子树被处理过了，cur->left == root
+          // 处理右子树
+          stk.push(cur->right);
+        } else {
+          // 左右子树都处理完毕，可以输出根节点
+          ans.push_back(cur->val);
+          stk.pop();
+          root = cur;  // 记录最后一个处理的节点
+        }
+      }
+      return ans;
+    }
+};
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

@@ -69,6 +69,20 @@ public:
       }
       return head;
     }
+
+    ListNode* solution3(ListNode* head) {
+      if (!head) return nullptr;
+      ListNode *cur = head, *pre = cur;
+      while (cur) {
+        if (cur->val == pre->val) {
+          pre->next = cur->next;
+        } else {
+          pre = cur;
+        }
+        cur = cur->next;
+      }
+      return head;
+    }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

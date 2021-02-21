@@ -39,21 +39,22 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-      return solution2(root);
+      return solution3(root);
     }
 
     // 递归
     vector<int> solution1(TreeNode* root) {
       vector<int> ans;
-      solution1core(root, ans);
-      return ans;
-    }
 
-    void solution1core(TreeNode* root, vector<int>& ans) {
-      if (!root) return;
-      ans.push_back(root->val);
-      solution1core(root->left, ans);
-      solution1core(root->right, ans);
+      function<void(TreeNode*)> solution1core = [&](TreeNode* root) {
+        if (!root) return;
+        ans.push_back(root->val);
+        solution1core(root->left);
+        solution1core(root->right);
+      };
+
+      solution1core(root);
+      return ans;
     }
 
     // 迭代
@@ -74,7 +75,24 @@ public:
       }
       return ans;
     }
-  };
+
+    // 迭代的另一种实现方式
+    vector<int> solution3(TreeNode* root) {
+      if (!root) return {};
+      vector<int> ans;
+      stack<TreeNode*> stk;
+      stk.push(root);
+
+      while (!stk.empty()) {
+        TreeNode* cur = stk.top();
+        stk.pop();
+        ans.push_back(cur->val);
+        if (cur->right) stk.push(cur->right);
+        if (cur->left) stk.push(cur->left);
+      }
+      return ans;
+    }
+};
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

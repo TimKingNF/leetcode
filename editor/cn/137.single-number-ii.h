@@ -24,13 +24,12 @@ namespace LeetCode137 {
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-      return solution1(nums);
+      return solution1(nums, 3);
     }
 
-    // hash 计数，略过
-
+    // k 可以取任意值
     // 所以数字的二进制上每一个位的1加起来，能被 3 整除，记为0，不能为1，最后的数即为ans
-    int solution1(vector<int>& nums) {
+    int solution1(vector<int>& nums, int k) {
       int tmp[32] = {0};
       uint x = 1;
       for (int i = 31; i >= 0; --i) {
@@ -39,10 +38,11 @@ public:
         }
         x <<= 1;
       }
+      // 恢复为 10 进制
       uint ans = 0;
       for (int v : tmp) {
         ans <<= 1;
-        ans += v % 3;
+        ans += v % k;
       }
       return ans;
     }

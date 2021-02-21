@@ -30,10 +30,8 @@ TEST_P(LeetCode191Test, main) {
   ASSERT_EQ(solution->hammingWeight(argument), ret);  // 断言结果
 }
 
-ArgumentType p1 = 9;
-
 auto values = ::testing::Values(
-  ParamType(p1, 2)
+  ParamType(9, 2)
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode191ParamTest, LeetCode191Test, values);

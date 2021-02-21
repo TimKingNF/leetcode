@@ -32,7 +32,7 @@ TEST_P(LeetCode40Test, main) {
   tie(candidates, target) = arguments;
 
   ResultType asserted = solution->combinationSum2(candidates, target);
-  ASSERT_EQ(asserted, ret);
+  // ASSERT_EQ(asserted, ret);
   ASSERT_TRUE(double_vector_cmp(asserted, ret));
 }
 

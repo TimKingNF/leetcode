@@ -35,7 +35,8 @@ TEST_P(LeetCode_16_07Test, main) {
 
 auto values = ::testing::Values(
   ParamType(ArgumentType(1, 2), 2),
-  ParamType(ArgumentType(-1, 0), 0)
+  ParamType(ArgumentType(-1, 0), 0),
+  ParamType(ArgumentType(2147483647, -2147483648), 2147483647)
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode_16_07ParamTest, LeetCode_16_07Test, values);

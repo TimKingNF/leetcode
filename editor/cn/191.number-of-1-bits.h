@@ -46,7 +46,7 @@ namespace LeetCode191 {
 class Solution {
 public:
     int hammingWeight(uint32_t n) {
-      return solution1(n);
+      return solution3(n);
     }
 
     int solution1(uint32_t n) {
@@ -58,16 +58,26 @@ public:
       return res;
     }
 
+    // 只消去最后的1
     int solution2(uint32_t n) {
       int ans = 0;
       while (n != 0) {
         n = n & (n-1);  // 消去最低位的1
+        // n -= n & (~n + 1);  // 同理也是消去最低位的1, n & (~n + 1) 可以取到最低位 1 的大小
         ++ans;
       }
       return ans;
     }
 
-    // TODO: 进阶方式: 使用字典存储结果?
+    // 效率较为平均
+    int solution3(uint32_t n) {
+      n = (n & 0x55555555) + ((n >> 1) & 0x55555555);
+      n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
+      n = (n & 0x0f0f0f0f) + ((n >> 4) & 0x0f0f0f0f);
+      n = (n & 0x00ff00ff) + ((n >> 8) & 0x00ff00ff);
+      n = (n & 0x0000ffff) + ((n >> 16) & 0x0000ffff);
+      return n;
+    }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

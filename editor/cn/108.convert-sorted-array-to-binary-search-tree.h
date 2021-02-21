@@ -68,7 +68,7 @@ public:
       root->right = solution2core(nums, middle+1, right);
       return root;
     }
-  };
+};
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

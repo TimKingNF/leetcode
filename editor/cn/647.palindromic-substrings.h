@@ -34,7 +34,7 @@ namespace LeetCode647 {
 class Solution {
 public:
     int countSubstrings(string s) {
-      return solution4(s);
+      return solution2(s);
     }
 
     // 中心扩散法
@@ -105,7 +105,7 @@ public:
       return ans;
     }
 
-    // Manacher
+    // TODO：待验证 Manacher
     // O( N ), O( 1 )
     int solution4(string s) {
       ostringstream os;

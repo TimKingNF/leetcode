@@ -306,19 +306,21 @@ string treeSerialize(T* root) {
   ostringstream out;  // 使用 ostream 代替 string
   deque<T*> q;
   q.push_back(root);
-  T* tmp;
+
   int curNum = 1;  // 用该变量记录实际的元素
   while (!q.empty()) {
-    tmp = q.front();
+    root = q.front();
     q.pop_front();
-    if (tmp) {
-      out << tmp->val << ',';
+    if (root) {
+      out << root->val << ',';
       --curNum;
-      q.push_back(tmp->left);
-      if (tmp->left) ++curNum;
-      q.push_back(tmp->right);
-      if (tmp->right) ++curNum;
-    } else if (curNum) out << "null,";
+      q.push_back(root->left);
+      if (root->left) ++curNum;
+      q.push_back(root->right);
+      if (root->right) ++curNum;
+    } else if (curNum) {  // root == nullptr
+      out << "null,";
+    }
   }
   string ans = out.str();
   return ans.substr(0, ans.size()-1);

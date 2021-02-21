@@ -38,10 +38,11 @@ struct ListNode {
 class Solution {
 public:
     ListNode* sortList(ListNode* head) {
-      return solution3(head);
+      return solution4(head);
     }
 
     // 快速排序
+    // O( N logN ), O( 1 )
     ListNode* solution1(ListNode* head) {
       if (!head) return nullptr;
       ListNode* first = head;
@@ -172,6 +173,47 @@ public:
         intv *= 2;
       }
       return dummy->next;
+    }
+
+    // 选择排序, 每次都选择最小的节点, 放到排好序的链表尾部
+    // O( N^2 ), O( 1 )
+    ListNode* solution4(ListNode* head) {
+      if (!head) return nullptr;
+      ListNode *tail = nullptr;  // 排序部分的尾部节点
+      ListNode *cur = head;  // 未排序部分的头部节点
+      ListNode *smallPre = nullptr;  // 最小节点的前一个节点
+      ListNode *small = nullptr;  // 最小节点
+      while (cur) {
+        small = cur;
+        smallPre = getSmallestPreNode(cur);
+        if (smallPre) {  // 移除最小节点
+          small = smallPre->next;
+          smallPre->next = small->next;
+        }
+        // 更新未排序部分的头部节点
+        cur = cur == small ? cur->next : cur;
+        if (!tail) {
+          head = small;  // 记录排序之后的头结点
+        } else {
+          tail->next = small;
+        }
+        tail = small;
+      }
+      return head;
+    }
+
+    // 获取最小值节点的前一个节点
+    ListNode* getSmallestPreNode(ListNode* head) {
+      ListNode *pre = nullptr, *small = head, *smallPre = nullptr;
+      while (head) {
+        if (head->val < small->val) {
+          small = head;
+          smallPre = pre;
+        }
+        pre = head;  // 记录前驱节点
+        head = head->next;
+      }
+      return smallPre;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

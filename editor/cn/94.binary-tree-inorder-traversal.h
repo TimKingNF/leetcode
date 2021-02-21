@@ -45,36 +45,37 @@ public:
     vector<int> solution1(TreeNode* root) {
       if (!root) return {};
       vector<int> ans;
-      inorder(root, &ans);
-      return ans;
-    }
 
-    void inorder(TreeNode* root, vector<int>* ans) {
-      if (!root) return;
-      inorder(root->left, ans);
-      (*ans).push_back(root->val);
-      inorder(root->right, ans);
+      function<void(TreeNode*)> inorder = [&](TreeNode* root) {
+        if (!root) return;
+        inorder(root->left);
+        ans.push_back(root->val);
+        inorder(root->right);
+      };
+
+      inorder(root);
+      return ans;
     }
 
     // 循环
     vector<int> solution2(TreeNode* root) {
-      if (!root) return {};
-      stack<TreeNode*> stk;
       vector<int> ans;
-      TreeNode* cur;
+      if (!root) return ans;
+
+      stack<TreeNode*> stk;
       while (!stk.empty() || root) {
         while (root) {
           stk.push(root);
           root = root->left;
         }
-        cur = stk.top();
+        root = stk.top();
         stk.pop();
-        ans.push_back(cur->val);
-        root = cur->right;
+        ans.push_back(root->val);
+        root = root->right;
       }
       return ans;
     }
-  };
+};
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

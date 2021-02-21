@@ -34,6 +34,7 @@ TEST_P(LeetCode297Test, main) {
   TreeNode* root = buildTreeBySerialize<TreeNode, convert>(argument);
   TreeNode* copyRoot = codec.deserialize(codec.serialize(root));
 
+  // 使用前序和中序校验两树是否相同
   vector<int> preorder_root = preorder_range_binary_tree<TreeNode, int>(root);
   vector<int> preorder_copy_root = preorder_range_binary_tree<TreeNode, int>(copyRoot);
   vector<int> inorder_root = inorder_range_binary_tree<TreeNode, int>(root);
@@ -42,10 +43,8 @@ TEST_P(LeetCode297Test, main) {
   ASSERT_EQ(inorder_root, inorder_copy_root);
 }
 
-ArgumentType p1 = "1,2,3,null,null,4,5";
-
 auto values = ::testing::Values(
-  p1
+  "1,2,3,null,null,4,5"
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode297ParamTest, LeetCode297Test, values);

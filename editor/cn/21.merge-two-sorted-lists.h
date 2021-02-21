@@ -12,9 +12,11 @@
 namespace LeetCode21 {
 
 struct ListNode {
-  int val;
-  ListNode *next;
-  ListNode(int x) : val(x), next(NULL) {}
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
 //leetcode submit region begin(Prohibit modification and deletion)
@@ -29,7 +31,7 @@ struct ListNode {
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-      return solution1(l1, l2);
+      return solution2(l1, l2);
     }
 
     // 递归
@@ -53,28 +55,19 @@ public:
       if (!l1) return l2;
       if (!l2) return l1;
 
-      ListNode *ans, *node;
-      if (l1->val < l2->val) {
-        ans = l1;
-        l1 = l1->next;
-      } else {
-        ans = l2;
-        l2 = l2->next;
-      }
-      node = ans;
+      ListNode *dummy = new ListNode(), *pre = dummy;
       while (l1 && l2) {
         if (l1->val < l2->val) {
-          node->next = l1;
+          pre->next = l1;
           l1 = l1->next;
         } else {
-          node->next = l2;
+          pre->next = l2;
           l2 = l2->next;
         }
-        node = node->next;
+        pre = pre->next;
       }
-      if (l1) node->next = l1;
-      if (l2) node->next = l2;
-      return ans;
+      pre->next = l1 ? l1 : l2;
+      return dummy->next;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

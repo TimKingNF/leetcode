@@ -29,12 +29,18 @@ public:
     vector<int> solution1(vector<int>& nums) {
       int ab = 0;
       for (int v : nums) ab ^= v;
-      // 获取最低的1的位置
-      int flag = ab & -ab;
+      // ab = a ^ b;
+      // 按位置区分，如果ab中某一位为 1，则说明在此位上，a b 当中有一个为 1，另一个为 0
+      // 获取最低的1的位置, 按此位置，将 nums 分组
+      // int flag = ab & -ab;  // flag = ab & (~ab + 1)  // 但这种写法可能会溢出
+      int flag = 1;
+      while (!(flag & ab)) flag <<= 1;
+
       int a = 0;
       for (int v : nums) {
         if (v & flag) a ^= v;
       }
+      // 最终 a 得到的值就是 两个数当中的其中一个
       return {a, ab ^ a};  // ab ^ a 得到 b
     }
 };

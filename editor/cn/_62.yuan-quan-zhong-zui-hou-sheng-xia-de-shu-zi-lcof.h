@@ -40,9 +40,9 @@ public:
 
     int solution1(int n, int m) {
       if (n < 1 || m < 1) return -1;
-      int last = 0;
+      int last = 0;  // last 是最后一轮下标的位置, 为0 ，通过它倒推出在上一轮的位置
       for (int i = 2; i <= n; ++i)
-        last = (last + m) % i;
+        last = (last + m) % i;  // 下标位置前补上m个元素，再模取 上一轮的个数
       return last;
     }
 };

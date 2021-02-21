@@ -128,17 +128,16 @@ public:
     Node* reconnectNodes(Node* head) {
       if (!head) return nullptr;
       Node* ans = head->next;
-      Node* tmp;
+      Node* cur;
       while (head) {
-        if (!head->next)
-          break;
-        tmp = head->next;
-        head->next = head->next->next;
-        head = tmp;
+        cur = head->next;  // 新节点
+        head->next = cur->next;
+        head = head->next;
+        if(head) cur->next = head->next;
       }
       return ans;
     }
-  };
+};
 //leetcode submit region end(Prohibit modification and deletion)
 
 }

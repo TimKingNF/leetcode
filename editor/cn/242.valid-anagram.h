@@ -31,11 +31,13 @@ public:
 
     bool solution1(string s, string t) {
       if (s.size() < t.size()) swap(s, t);  // 使用字符串长的构建字典
-      int dict[26] = {0};
+      int dict[256] = {0};
       for (auto c : s) ++dict[c];
-      for (auto c : t) dict[c] > 0 && --dict[c];  // 出现过的才 --
+      for (auto c : t) {
+        if (--dict[c] < 0) return false;  // 原字符串没有或已经为空
+      }
       int sum = 0;
-      for (int i = 0; i < 26; ++i) sum += dict[i];
+      for (int i = 0; i < 256; ++i) sum += dict[i];
       return sum == 0;
     }
 

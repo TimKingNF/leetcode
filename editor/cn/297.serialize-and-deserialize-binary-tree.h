@@ -50,22 +50,27 @@ public:
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
       ostringstream out;  // 使用 ostream 代替 string
+      out << root->val << ",";  // 拼入第一个节点
       deque<TreeNode*> q;
       q.push_back(root);
-      TreeNode* tmp;
-      int curNum = 1;  // 用该变量记录实际的元素
+
       while (!q.empty()) {
-        tmp = q.front();
+        root = q.front();
         q.pop_front();
-        if (tmp) {
-          out << tmp->val << ',';
-          --curNum;
-          q.push_back(tmp->left);
-          if (tmp->left) ++curNum;
-          q.push_back(tmp->right);
-          if (tmp->right) ++curNum;
-        } else if (curNum) out << "null,";
+        if (root->left) {
+          out << root->left->val << ",";
+          q.push_back(root->left);
+        } else {
+          out << "null,";
+        }
+        if (root->right) {
+          out << root->right->val << ",";
+          q.push_back(root->right);
+        } else {
+          out << "null,";
+        }
       }
+
       string ans = out.str();
       ans = ans.substr(0, ans.size()-1);
       return '[' + ans + ']';

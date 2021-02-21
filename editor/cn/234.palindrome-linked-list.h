@@ -122,6 +122,48 @@ public:
       }
       return pre;
     }
+
+    // 普通解法，利用栈, 全部压入节点，空间是 O( N )
+    bool solution3(ListNode* head) {
+      if (!head) return true;
+      stack<ListNode*> stk;
+      ListNode* cur = head;
+
+      while (cur) {
+        stk.push(cur);
+        cur = cur->next;
+      }
+
+      while (head) {
+        if (head->val != stk.top()->val) return false;
+        stk.pop();
+        head = head->next;
+      }
+      return true;
+    }
+
+    // 利用栈，但空间只有 O( N/2 )
+    bool solution4(ListNode* head) {
+      if (!head) return true;
+      ListNode *right = head, *cur = head;
+      while (cur && cur->next) {
+        cur = cur->next->next;
+        right = right->next;
+      }
+
+      // 拿到链表右半部分起点之后, 压入栈，与左半部分一个一个比对
+      stack<ListNode*> stk;
+      while (right) {
+        stk.push(right);
+        right = right->next;
+      }
+      while (!stk.empty()) {
+        if (head->val != stk.top()->val) return false;
+        stk.pop();
+        head = head->next;
+      }
+      return true;
+    }
 };
 //leetcode submit region end(Prohibit modification and deletion)
 

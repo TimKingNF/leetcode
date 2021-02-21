@@ -54,6 +54,11 @@ struct ListNode {
 class Solution {
 public:
     void deleteNode(ListNode* node) {
+      // 加上限制
+      if (!node) return;
+      if (!node->next) {
+        throw invalid_argument("Can not remove last node.");
+      }
       // 因为不知道 tmp 的前继节点，所以不能删除当前节点
       node->val = node->next->val;  // 复制值
       ListNode *tmp = node->next;
