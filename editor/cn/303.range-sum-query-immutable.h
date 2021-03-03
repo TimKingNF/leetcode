@@ -50,19 +50,18 @@ namespace LeetCode303 {
 //leetcode submit region begin(Prohibit modification and deletion)
 class NumArray {
 private:
- vector<int> dp;
+  vector<int> increase;  // 累计和数组
 public:
     NumArray(vector<int>& nums) {
-      int n = nums.size();
-      dp = vector<int>(n+1, 0);
-
-      for (int i = 0; i < n; ++i) {
-        dp[i+1] = dp[i] + nums[i];
+      int tmp = 0;
+      increase.resize(nums.size());
+      for (int i = 0; i < nums.size(); ++i) {
+        increase[i] = tmp += nums[i];
       }
     }
     
     int sumRange(int i, int j) {
-      return dp[j + 1] - dp[i];
+      return increase[j] - (i > 0 ? increase[i-1] : 0);
     }
 };
 

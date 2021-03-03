@@ -37,7 +37,9 @@ TEST_P(LeetCode_26Test, main) {
 
 auto values = ::testing::Values(
   ParamType(ArgumentType("1,2,3", "3,1"), false),
-  ParamType(ArgumentType("3,4,5,1,2", "4,1"), true)
+  ParamType(ArgumentType("3,4,5,1,2", "4,1"), true),
+  ParamType(ArgumentType("-1,3,2,0", ""), false),
+  ParamType(ArgumentType("4,2,3,4,5,6,7,8,9", "4,8,9"), true)
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode_26ParamTest, LeetCode_26Test, values);

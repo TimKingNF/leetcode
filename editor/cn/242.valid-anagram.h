@@ -44,14 +44,10 @@ public:
     // 效率更高
     bool solution2(string s, string t) {
       if (s.size() != t.size()) return false;  // 长度不一致一定不是
-      int dict[26] = {0};
-      for (int i = 0; i < s.size(); ++i) {
-        dict[s[i] - 'a']++;
-        dict[t[i] - 'a']--;
-      }
-
-      for (int i = 0; i < 26; ++i) {
-        if (dict[i] != 0) return false;
+      int dict[256] = {0};
+      for (auto c : s) dict[c]++;
+      for (auto c : t) {
+        if (dict[c]-- == 0) return false;  // -- 之前为 0 一定不是
       }
       return true;
     }

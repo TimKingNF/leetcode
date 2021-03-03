@@ -57,12 +57,52 @@ struct TreeNode {
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+      return solution2(root, p, q);
+    }
+
+    // 后序遍历
+    TreeNode* solution1(TreeNode* root, TreeNode* p, TreeNode* q) {
       if (!root || root == p || root == q) return root;
+      // 先处理左右子树
       TreeNode* left = lowestCommonAncestor(root->left, p, q);
       TreeNode* right = lowestCommonAncestor(root->right, p, q);
+
+      // left right 都为空，说明 p q 不在 root 的子树上，应返回 nullptr
+      // 和 left 为空时 返回 right, 两个情况整合
       if (!left) return right;
+
+      // 当 right 为空时，返回 left
       if (!right) return left;
+
+      // 两个都不为空，说明首次在 root 点相遇
       return root;
+    }
+
+    // 支持多次查询
+    // O( N+h ), O( N )
+    // N 是构造字典的时间，h 是查询的时间
+    TreeNode* solution2(TreeNode* root, TreeNode* p, TreeNode* q) {
+      // 构造字典记录每个节点对应的父节点
+      unordered_map<TreeNode*, TreeNode*> dict{{root, nullptr}};
+      function<void(TreeNode*)> setDict = [&](TreeNode* node) {
+        if (!node) return;
+        if (node->left) dict.insert({node->left, node});
+        if (node->right) dict.insert({node->right, node});
+        setDict(node->left);
+        setDict(node->right);
+      };
+      setDict(root);
+
+      // 查询时，先将 p 的父节点记录到一个集合中，然后一次判断 q 的父节点
+      unordered_set<TreeNode*> parents;
+      while (dict.count(p)) {
+        parents.insert(p);
+        p = dict[p];
+      }
+      while (!parents.count(q)) {
+        q = dict[q];
+      }
+      return q;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

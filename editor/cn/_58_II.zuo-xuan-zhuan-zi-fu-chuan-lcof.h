@@ -39,7 +39,7 @@ public:
       int len = s.size();
       n = n % len;  // 防止 n > s.length
       if (len == 0 || n == 0) return s;
-      // 单独翻转 0,n, n-end
+      // 单独翻转 0-n, n-end
       reverse(s, 0, n-1);
       reverse(s, n, len-1);
       reverse(s, 0, len-1);  // 最后再翻转整个字符串

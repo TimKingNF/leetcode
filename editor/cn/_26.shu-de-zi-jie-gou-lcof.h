@@ -57,30 +57,17 @@ struct TreeNode {
 class Solution {
 public:
     bool isSubStructure(TreeNode* A, TreeNode* B) {
-      if (A == nullptr || B == nullptr) return false;
-
-      bool ans = false;
-      if (A->val == B->val) {
-        ans = isSubStructureCore(A, B);
-      }
-      if (!ans) {  // 尝试从左子树开始找
-        ans = isSubStructure(A->left, B);
-      }
-      if (!ans) {  // 尝试从右子树开始找
-        ans = isSubStructure(A->right, B);
-      }
-      return ans;
+      if (!A || !B) return false;
+      return isSubStructureCore(A, B) || isSubStructure(A->left, B) || isSubStructure(A->right, B);
     }
 
+    // 判断是否是子结构
     bool isSubStructureCore(TreeNode* A, TreeNode* B) {
-      // 判断是否是子结构
-      if (B == nullptr) return true;  // 找到B的节点为 nullptr 时说明已经匹配完毕
-      if (A == nullptr) return false;
+      if (!B) return true;  // 找到B的节点为 nullptr 时说明是子结构
+      if (!A || A->val != B->val) return false;  // 节点无法匹配
 
-      if (A->val == B->val) {
-        return isSubStructureCore(A->left, B->left) && isSubStructureCore(A->right, B->right);
-      }
-      return false;
+      // 节点可以匹配的情况下，则继续匹配对应的 左孩子和右孩子
+      return isSubStructureCore(A->left, B->left) && isSubStructureCore(A->right, B->right);
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

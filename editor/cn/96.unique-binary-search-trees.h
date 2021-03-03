@@ -31,7 +31,7 @@ public:
       G[1] = 1;
       for (int i = 2; i <= n; ++i) {
         G[i] = 0;
-        for (int j = 1; j <= i; ++j) {
+        for (int j = 1; j <= i; ++j) {  // 以某个j为头结点
           // 这里J指的是以J为根节点，其数量和为 左子树 G[j-1] * 右子树 G[i-j]
           G[i] += G[j - 1] * G[i-j];
         }

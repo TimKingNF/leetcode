@@ -82,11 +82,11 @@ public:
 
     bool solution2(TreeNode* root) {
       if (!root) return true;
-      int leftHight;
-      int rightHight;
-      return solution2core(root->left, &leftHight) &&
-             solution2core(root->right, &rightHight) &&
-             abs(leftHight - rightHight) <= 1;
+      int leftHeight;
+      int rightHeight;
+      return solution2core(root->left, &leftHeight) &&
+             solution2core(root->right, &rightHeight) &&
+             abs(leftHeight - rightHeight) <= 1;
     }
 
     bool solution2core(TreeNode* node, int* hight) {
@@ -94,12 +94,12 @@ public:
         *hight = 0;
         return true;
       }
-      int leftHight;
-      int rightHight;
-      if (solution2core(node->left, &leftHight) &&
-          solution2core(node->right, &rightHight) &&
-          abs(leftHight - rightHight) <= 1) {
-        *hight = max(leftHight, rightHight) + 1;
+      int leftHeight;
+      int rightHeight;
+      if (solution2core(node->left, &leftHeight) &&
+          solution2core(node->right, &rightHeight) &&
+          abs(leftHeight - rightHeight) <= 1) {
+        *hight = max(leftHeight, rightHeight) + 1;
         return true;
       }
       return false;

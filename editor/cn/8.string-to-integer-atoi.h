@@ -33,7 +33,7 @@
 // 输入: "   -42"
 //输出: -42
 //解释: 第一个非空白字符为 '-', 它是一个负号。
-//     我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。
+//     我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。
 // 
 //
 // 示例 3: 
@@ -55,7 +55,7 @@
 // 输入: "-91283472332"
 //输出: -2147483648
 //解释: 数字 "-91283472332" 超过 32 位有符号整数范围。 
-//     因此返回 INT32_MIN (−231) 。
+//     因此返回 INT32_MIN (−231) 。
 // 
 // Related Topics 数学 字符串
 
@@ -67,20 +67,27 @@ namespace LeetCode8 {
 class Solution {
 public:
     int myAtoi(string str) {
-      int left = 0, flag = 1, len = str.size(), ans = 0;
-      while (left < len && str[left] == ' ') ++left;
-      if (left == len) return 0;
+      return solution1(str);
+    }
 
+    int solution1(string str) {
+      int left = 0, flag = 1, len = str.size(), ans = 0;
+      // 移除字符串前的空格
+      while (left < len && str[left] == ' ') ++left;
+      if (left == len) return ans;  // 说明全是空格
+
+      // 允许正负号开头
       if (str[left] == '-') flag = -1;
       if (str[left] == '+' || str[left] == '-') ++left;
 
       int digit;
+      int minDigit = INT32_MAX / 10;  // 扩大到最大位之前
+      int minRight = INT32_MAX % 10;  // 在 ans == minDigit 之后所允许的最大位, =7
       for (; left < len && isdigit(str[left]); ++left) {
-        digit = str[left] - '0';
-        if (ans > INT32_MAX / 10) return flag > 0 ? INT32_MAX : INT32_MIN;
-        if (ans == INT32_MAX / 10 && digit > 7) {
-          if (flag > 0) return INT32_MAX;
-          if (digit >= 8) return INT32_MIN;
+        digit = str[left] - '0';  // 此位上的数字
+        if (ans > minDigit ||
+            (ans == minDigit && digit > minRight)) {  // 此时无论如何都为越界
+          return flag > 0 ? INT32_MAX : INT32_MIN;
         }
         ans = ans * 10 + digit;
       }

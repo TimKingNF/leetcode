@@ -42,10 +42,10 @@ struct TreeNode {
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-      return solution2(root);
+      return solution3(root);
     }
 
-    // bfs
+    // bfs, O( N ), O( N )
     int solution1(TreeNode* root) {
       if (!root) return 0;
       queue<TreeNode*> q;
@@ -104,6 +104,33 @@ public:
         bits >>= 1;
       }
       return node != nullptr;
+    }
+
+    // O( h^2 )
+    int solution3(TreeNode* root) {
+      if (!root) return 0;
+      return bs(root, 1, mostLeftLevel(root, 0));
+    }
+
+    // l 是当前深度，h 是总深度
+    int bs(TreeNode* node, int l, int h) {
+      if (l == h) return 1;  // 当前深度已经到最大深度，说明自己是叶子节点，返回自己即可
+      // node 的右子树的最左节点深度达到了最大深度，说明整个左子树都是满二叉树
+      if (mostLeftLevel(node->right, l) == h) {
+        return (1 << (h-l)) + bs(node->right, l+1, h);
+      } else {
+        // 右子树是高度为 h-l-1 的满二叉树
+        return (1 << (h-l-1)) + bs(node->left, l+1, h);
+      }
+    }
+
+    // 求树的最左节点的深度
+    int mostLeftLevel(TreeNode* node, int level) {
+      while (node) {
+        ++level;
+        node = node->left;
+      }
+      return level;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

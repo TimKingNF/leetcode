@@ -71,7 +71,9 @@ public:
 
     // 两次翻转, 先翻转整个字符串, 再翻转每个单词
     string solution2(string s) {
+      if (s.empty()) return s;
       reverse(s.begin(), s.end());
+
       int n = s.size();
       int idx = 0, end;
       for (int start = 0; start < n; ++start) {
@@ -81,9 +83,9 @@ public:
           // 遍历到单词的末尾
           end = start;
           while (end < n && s[end] != ' ') s[idx++] = s[end++];
-          // 翻转单词
+          // 翻转单词, 总个数是 end-1-start+1
           reverse(s.begin() + idx - (end - start), s.begin() + idx);
-          // 更新start, 寻找下一个单词
+          // 更新start, end 是空格，寻找下一个单词
           start = end;
         }
       }

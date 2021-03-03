@@ -37,10 +37,8 @@ TEST_P(LeetCode105Test, main) {
   ASSERT_EQ(inorder_ret, inorder);
 }
 
-ArgumentType p1({3,9,20,15,7}, {9,3,15,20,7});
-
 auto values = ::testing::Values(
-  p1
+  ArgumentType({3,9,20,15,7}, {9,3,15,20,7})
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode105ParamTest, LeetCode105Test, values);

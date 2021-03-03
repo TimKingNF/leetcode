@@ -86,22 +86,22 @@ public:
     // 更易理解一点
     vector<vector<int>> solution2(TreeNode* root) {
       if (!root) return {};
-      deque<TreeNode*> p, q;
-      p.push_back(root);
       vector<vector<int>> ans;
       vector<int> line;
-      TreeNode* cur;
-      while (!p.empty()) {
-        cur = p.front();
-        p.pop_front();
-        line.push_back(cur->val);
-        if (cur->left) q.push_back(cur->left);
-        if (cur->right) q.push_back(cur->right);
-        if (p.empty()) {
-          swap(p, q);
-          ans.push_back(line);
-          line.clear();
+      deque<TreeNode*> q;
+      q.push_back(root);
+
+      while (!q.empty()) {
+        int size = q.size();
+        for (int i = 0; i < size; ++i) {
+          root = q.front();
+          q.pop_front();
+          line.push_back(root->val);
+          if (root->left) q.push_back(root->left);
+          if (root->right) q.push_back(root->right);
         }
+        ans.push_back(line);
+        line.clear();
       }
       return ans;
     }

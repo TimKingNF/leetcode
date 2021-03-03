@@ -53,12 +53,9 @@ TEST_P(LeetCode236Test, main) {
   ASSERT_EQ(solution->lowestCommonAncestor(root, p_node, q_node), ret_node);
 }
 
-ArgumentType p1("3,5,1,6,2,0,8,null,null,7,4", 5, 1);
-ArgumentType p2("3,5,1,6,2,0,8,null,null,7,4", 5, 4);
-
 auto values = ::testing::Values(
-  ParamType(p1, 3),
-  ParamType(p2, 5)
+  ParamType(ArgumentType("3,5,1,6,2,0,8,null,null,7,4", 5, 1), 3),
+  ParamType(ArgumentType("3,5,1,6,2,0,8,null,null,7,4", 5, 4), 5)
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode236ParamTest, LeetCode236Test, values);

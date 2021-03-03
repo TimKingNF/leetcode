@@ -32,7 +32,6 @@ public:
       for (auto c : s) {
         if (c == ' ') ++space_count;
       }
-      const char* replacement = "%20";
       string res(s.size() + space_count * 2, ' ');  // 新字符串的长度
       int p = res.size()-1;
       for (int i = s.size() - 1; i >= 0; --i) {
