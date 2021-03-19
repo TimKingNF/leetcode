@@ -42,9 +42,11 @@ public:
       stack<int> nums;
       stack<char> operators;
       bool negative = false;  // 记录下一个数是负数, 这里是将 - 号 转为 + 号，原数变为负数
+
       for (int i = 0; i < n; ++i) {
         if (s[i] == ' ') continue;
-        else if (isdigit(s[i])) {  // 如果遇到数字
+
+        if (isdigit(s[i])) {  // 如果遇到数字
           int num = s[i] - '0';
           while (i < n && isdigit(s[i+1])) {  // 考虑遇到多位数的情况
             num *= 10;
@@ -56,10 +58,6 @@ public:
         } else if (s[i] == '-') {
           operators.push('+');
           negative = true;
-          if (s[i+1] == '(') {  // 表示括号的表达式最终结果值为负数
-            operators.push('-');
-            negative = false;
-          }
         } else if (s[i] == ')') {  // ), 开始做运算
           while (operators.top() != '(') {
             int second = nums.top();
@@ -67,23 +65,29 @@ public:
             int first = nums.top();
             nums.pop();
             operators.pop();
-            nums.push(first + second);
+            nums.push(first + second);  // 括号内的 - 都被处理为了 + 号。所以直接+ 即可
           }
           operators.pop();  // 弹出 '('
 
-          // 判断最后的结果值要不要处理为负数
+          // 判断 括号表达式 最后的结果值要不要处理为负数
           if (!operators.empty() && operators.top() == '-') {
             int num = nums.top();
             nums.pop();
             nums.push(-num);
             operators.pop();
           }
+        } else {
+          // 表示括号的表达式最终结果值为负数
+          if (s[i] == '(' && (!operators.empty() && negative)) {
+            operators.push('-');
+            negative = false;
+          }
+          operators.push(s[i]);  // ( +
         }
-        else operators.push(s[i]);  // ( +
       }
 
-      // 如果操作符还有，此时已经不含括号
-      while (!operators.empty()) {
+      // 如果操作符还有，此时已经不含 括号 和 - 号
+      while (!operators.empty() && nums.size() >= 2) {
         int second = nums.top();
         nums.pop();
         int first = nums.top();

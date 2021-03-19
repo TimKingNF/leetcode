@@ -31,19 +31,12 @@ TEST_P(LeetCode54Test, main) {
   ASSERT_EQ(solution->spiralOrder(argument), ret);  // 断言结果
 }
 
-ArgumentType p1{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-vector<int> r1{1,2,3,6,9,8,7,4,5};
-
-ArgumentType p2{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
-vector<int> r2{1,2,3,4,8,12,11,10,9,5,6,7};
-
-ArgumentType p3{{7}, {8}, {9}};
-vector<int> r3{7, 8, 9};
-
 auto values = ::testing::Values(
-  ParamType(p1, r1),
-  ParamType(p2, r2),
-  ParamType(p3, r3)
+  ParamType({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}},
+            {1,2,3,6,9,8,7,4,5}),
+  ParamType({{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}},
+            {1,2,3,4,8,12,11,10,9,5,6,7}),
+  ParamType({{7}, {8}, {9}}, {7, 8, 9})
 );
 //第一个参数是前缀；第二个是类名；第三个是参数生成器
 INSTANTIATE_TEST_SUITE_P(LeetCode54ParamTest, LeetCode54Test, values);
